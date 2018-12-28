@@ -7,13 +7,14 @@
                 <div class="card-header">Create new Student</div>
 
                 <div class="card-body">
-                    <form method="post" action="{{ route('student.store') }}" >
+                    <form enctype="multipart/form-data" method="post" action="{{ route('student.store') }}" >
                         @csrf
                         <input type="text" class="form-control" name="matric_no" placeholder="matric_no" style="  margin-bottom: 10px;"/>
                         <input class="form-control" type="text" name="first_name" placeholder="first_name" style="  margin-bottom: 10px;"/>
                         <input type="text" class="form-control" name="last_name" placeholder="last_name" style="  margin-bottom: 10px;"/>
-                        <input type="text" class="form-control" name="gender" placeholder="gender" style="  margin-bottom: 10px;"/>
+                        <input type="text" ibnclass="form-control" name="gender" placeholder="gender" style="  margin-bottom: 10px;"/>
                         <input type="text" class="form-control" name="DOB" placeholder="DOB" style="margin-bottom: 10px;"/>
+                        <input type="file" name="photo">
                         <button type="submit" class="btn-primary">Create Student</button>
 
                     </form>

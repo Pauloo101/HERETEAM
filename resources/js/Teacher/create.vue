@@ -4,10 +4,8 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        toolbar.vue
-                    </div>
-                    <div class="card-body">
-                        <a href="/student/create" class="btn btn-primary">Add Student</a>
+                        <button class="btn btn-primary">Add User.vue </button>
+                        <button class="btn btn-primary">More operations  </button>
                     </div>
                 </div>
             </div>
@@ -19,7 +17,8 @@
     export default {
         mounted() {
             console.log('Component mounted.')
-        }}
+        }
+    }
 </script>
 
 <style scoped>

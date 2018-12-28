@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class StudentController extends Controller
 {
@@ -43,6 +44,12 @@ class StudentController extends Controller
        $student->last_name = $request->last_name;
        $student->gender = $request->gender;
        $student->DOB = $request->DOB;
+       if($request->hasFile('photo'))
+           $photo = $request->file('photo');
+            $filename = time().'.'. $photo->getClientOriginalExtension();
+            Image::make($photo)->resize(50, 50)->save (public_path('/img/' . $filename));
+
+       $student->photo = $filename;
        $student->save();
         return redirect()->route('student.index');
     }

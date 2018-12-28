@@ -19,14 +19,10 @@ class CreateStudentsTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('photo')->default('profile.png');
-            //class_section like jss 1a
-            //the class is jss 1 the section is "a"
-
-            //from parents table
-
             $table->char('gender');
             $table->string('DOB');
-
+            $table->integer('class_id')->nullable()->unsigned();
+            $table->foreign('class_id')->references('id')->on('users');
             $table->timestamps();
 
 
