@@ -6,7 +6,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col">
-                    <h3 class="card-title">Students</h3>
+                    <h3 class="card-title">Student</h3>
                 </div>
                 <div class="col text-right">
                     <select class="form-control-sm" style="margin-right: 3px; width: 110px; height: 37px" name="" id="">
@@ -61,6 +61,10 @@
                                 </th>
                                 <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
                                     aria-label="CSS grade: activate to sort column ascending">
+                                    Class
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="CSS grade: activate to sort column ascending">
                                     Action
                                 </th>
                             </tr>
@@ -76,6 +80,7 @@
                                     <td>{{$students->last_name}}</td>
                                     <td>{{$students->gender}}</td>
                                     <td>{{$students->DOB}}</td>
+                                    <td>@if($students->classrm) {{$students->classrm->id}} @endif</td>
                                     <td>
                                         <form action="{{ route('student.destroy',$students->id) }}" method="POST">
 
@@ -102,6 +107,7 @@
                                 <th rowspan="1" colspan="1">Last Name</th>
                                 <th rowspan="1" colspan="1">Gender</th>
                                 <th rowspan="1" colspan="1">DOB</th>
+                                <th rowspan="1" colspan="1">Class</th>
                                 <th rowspan="1" colspan="1">Action</th>
                             </tr>
                             </tfoot>

@@ -15,6 +15,11 @@
                         <input type="text" ibnclass="form-control" name="gender" placeholder="gender" style="  margin-bottom: 10px;"/>
                         <input type="text" class="form-control" name="DOB" placeholder="DOB" style="margin-bottom: 10px;"/>
                         <input type="file" name="photo">
+                        <select name="classroom_id" class="form-control" >
+                            @foreach($classroom as $classrooms)
+                                <option value="{{$classrooms->id}}"> {{$classrooms->name}} </option>
+                            @endforeach
+                        </select>
                         <button type="submit" class="btn-primary">Create Student</button>
 
                     </form>

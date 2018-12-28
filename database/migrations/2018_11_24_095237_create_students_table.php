@@ -21,8 +21,8 @@ class CreateStudentsTable extends Migration
             $table->string('photo')->default('profile.png');
             $table->char('gender');
             $table->string('DOB');
-            $table->integer('class_id')->nullable()->unsigned();
-            $table->foreign('class_id')->references('id')->on('users');
+            $table->integer('classroom_id')->unsigned();
+            $table->foreign('classroom_id')->references('id')->on('classroom');
             $table->timestamps();
 
 

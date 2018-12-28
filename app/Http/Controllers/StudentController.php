@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -16,8 +17,7 @@ class StudentController extends Controller
     public function index()
     {
         $student = Student::all();
-
-        return view('student.Index')->with('student',$student);
+        return view('student.Index', compact('student'));
     }
 
     /**
@@ -27,7 +27,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('Student.create');
+        $classroom= Classroom::all();
+        return view('Student.create')->with('classroom',$classroom);
     }
 
     /**
@@ -43,6 +44,7 @@ class StudentController extends Controller
        $student->first_name = $request->first_name;
        $student->last_name = $request->last_name;
        $student->gender = $request->gender;
+       $student->classroom_id = $request->classroom_id;
        $student->DOB = $request->DOB;
        if($request->hasFile('photo'))
            $photo = $request->file('photo');
