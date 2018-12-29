@@ -80,7 +80,7 @@
                                     <td>{{$students->last_name}}</td>
                                     <td>{{$students->gender}}</td>
                                     <td>{{$students->DOB}}</td>
-                                    <td>@if($students->classrm) {{$students->classrm->id}} @endif</td>
+                                    <td>{{$students->classroom->name}}</td>
                                     <td>
                                         <form action="{{ route('student.destroy',$students->id) }}" method="POST">
 

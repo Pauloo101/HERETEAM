@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
     protected $guarded = [];
 
-    public function classrm(){
+    public function classroom(){
         return $this->belongsTo(Classroom::class);
     }
 }
