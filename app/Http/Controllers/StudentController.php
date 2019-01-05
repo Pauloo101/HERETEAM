@@ -17,6 +17,7 @@ class StudentController extends Controller
     public function index()
     {
         $student = Student::all();
+        //return Student::with('classroom')->latest()->get();
         return view('student.Index', compact('student'));
     }
 
@@ -39,6 +40,13 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'gender'=>'required',
+            'matric_no'=>'required',
+            'classroom_id'=>'required'
+        ]);
        $student = new Student;
        $student->matric_no = $request->matric_no;
        $student->first_name = $request->first_name;
@@ -46,12 +54,15 @@ class StudentController extends Controller
        $student->gender = $request->gender;
        $student->classroom_id = $request->classroom_id;
        $student->DOB = $request->DOB;
-       if($request->hasFile('photo'))
+       if($request->hasFile('photo')) {
            $photo = $request->file('photo');
-            $filename = time().'.'. $photo->getClientOriginalExtension();
-            Image::make($photo)->resize(50, 50)->save (public_path('/img/' . $filename));
-
-       $student->photo = $filename;
+           $filename = time() . '.' . $photo->getClientOriginalExtension();
+           Image::make($photo)->resize(50, 50)->save(public_path('/img/' . $filename));
+           $student->photo = $filename;
+       }
+       else{
+           $student->photo =  $request->null;
+    }
        $student->save();
         return redirect()->route('student.index');
     }

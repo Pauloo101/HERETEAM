@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classroom;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
-class ClassroomController extends Controller
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $classroom = Classroom::all();
-        return view('Class.Index')->with('classroom',$classroom);
+        $subjects = Subject::all();
+        return view('Subject.index',compact('subjects'));
     }
 
     /**
@@ -25,7 +25,7 @@ class ClassroomController extends Controller
      */
     public function create()
     {
-        return view('Class.create');
+        return view('Subject.create');
     }
 
     /**
@@ -37,12 +37,12 @@ class ClassroomController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' =>'required|unique:classroom'
+            'name' => ['required','unique:subjects']
         ]);
-        $classroom = new Classroom();
-        $classroom->name = $request->name;
-        $classroom->save();
-        return redirect()->route('Class.index');
+        $subject = new Subject;
+        $subject->name = $request->name;
+        $subject->save();
+        return redirect()->route('subject.index');
     }
 
     /**
@@ -53,8 +53,9 @@ class ClassroomController extends Controller
      */
     public function show($id)
     {
-        $classroom = Classroom::find($id);
-        return view('Class.show')->with('classroom',$classroom);
+        $subject = Subject::find($id)->classrooms;
+        //return $subject;
+          return view ('Subject.show', compact('subject'));
     }
 
     /**
@@ -65,8 +66,7 @@ class ClassroomController extends Controller
      */
     public function edit($id)
     {
-        $classroom = Classroom::find($id);
-        return view('Class.edit', compact('classroom','id'));
+        //
     }
 
     /**
@@ -78,11 +78,7 @@ class ClassroomController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $classroom = Classroom::find($id);
-        $classroom->name= $request->name;
-        $classroom->save();
-       return redirect()->route('Class.index');
+        //
     }
 
     /**

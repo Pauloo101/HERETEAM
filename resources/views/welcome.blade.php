@@ -8,7 +8,7 @@
     welcome page
     <div id="app">
         <p>
-            <router-link :to="{ name: 'home' }">Home</router-link> |
+            <router-link :to="{ name: 'laracast' }">Home</router-link> |
             <router-link to="/hello">Hello World</router-link>
         </p>
 

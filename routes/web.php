@@ -22,3 +22,8 @@ Route::resource('/student', 'StudentController');
 Route::resource('/teacher','TeacherController');
 Route::resource('/Class','ClassroomController');
 Route::resource('/gradesystem','GradeController');
+Route::resource('/subject','SubjectController');
+Route::get('/dashboard', function (){
+    return App\Models\Student::with('classroom')->latest()->get();
+});
+

@@ -18,7 +18,7 @@ class CreateStudentsTable extends Migration
             $table->string('matric_no', 12);
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('photo')->default('profile.png');
+            $table->string('photo')->default('profile.png')->nullable();
             $table->char('gender');
             $table->string('DOB');
             $table->integer('classroom_id')->unsigned();

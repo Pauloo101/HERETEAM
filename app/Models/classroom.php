@@ -9,7 +9,14 @@ class Classroom extends Model
     protected $guarded = [];
     public $table = 'classroom';
 
-public function student(){
-    return $this->hasMany(Student::class);
-}
+    public function student()
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    public function subjects(){
+        return $this->belongsToMany(Subject::class);
+    }
+
+
 }
