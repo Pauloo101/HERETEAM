@@ -7,9 +7,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>SMS</title>
-
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    @yield('style')
+
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -43,91 +44,91 @@
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-comments" style="font-size: 20px"></i>
-                    <span class="badge badge-danger navbar-badge">3</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="{{asset('img/profile.png')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    Brad Diesel
-                                    <span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">Call me whenever you can...</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="{{asset('img/profile.png')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    John Pierce
-                                    <span class="float-right text-sm text-muted"><i class="fa fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">I got your message bro</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="{{asset('img/profile.png')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    Nora Silvester
-                                    <span class="float-right text-sm text-warning"><i class="fa fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">The subject goes here</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                </div>
-            </li>
-            <!-- Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-bell" style="font-size: 20px"></i>
-                    <span class="badge badge-warning navbar-badge">5</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-header">5 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-envelope mr-2"></i> 4 new messages
-                        <span class="text-muted text-sm">3 mins</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-users mr-2"></i> 8 friend requests
-                        <span class=" text-muted text-sm">12 hours</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-file mr-2"></i> 3 new reports
-                        <span class=" text-muted text-sm">2 days</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                </div>
-            </li>
+            <!-- Messages Dropdown Menu
+            {{--<li class="nav-item dropdown">--}}
+                {{--<a class="nav-link" data-toggle="dropdown" href="#">--}}
+                    {{--<i class="far fa-comments" style="font-size: 20px"></i>--}}
+                    {{--<span class="badge badge-danger navbar-badge">3</span>--}}
+                {{--</a>--}}
+                {{--<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">--}}
+                    {{--<a href="#" class="dropdown-item">--}}
+                        {{--<!-- Message Start -->--}}
+                        {{--<div class="media">--}}
+                            {{--<img src="{{asset('img/profile.png')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">--}}
+                            {{--<div class="media-body">--}}
+                                {{--<h3 class="dropdown-item-title">--}}
+                                    {{--Brad Diesel--}}
+                                    {{--<span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>--}}
+                                {{--</h3>--}}
+                                {{--<p class="text-sm">Call me whenever you can...</p>--}}
+                                {{--<p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<!-- Message End -->--}}
+                    {{--</a>--}}
+                    {{--<div class="dropdown-divider"></div>--}}
+                    {{--<a href="#" class="dropdown-item">--}}
+                        {{--<!-- Message Start -->--}}
+                        {{--<div class="media">--}}
+                            {{--<img src="{{asset('img/profile.png')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">--}}
+                            {{--<div class="media-body">--}}
+                                {{--<h3 class="dropdown-item-title">--}}
+                                    {{--John Pierce--}}
+                                    {{--<span class="float-right text-sm text-muted"><i class="fa fa-star"></i></span>--}}
+                                {{--</h3>--}}
+                                {{--<p class="text-sm">I got your message bro</p>--}}
+                                {{--<p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<!-- Message End -->--}}
+                    {{--</a>--}}
+                    {{--<div class="dropdown-divider"></div>--}}
+                    {{--<a href="#" class="dropdown-item">--}}
+                        {{--<!-- Message Start -->--}}
+                        {{--<div class="media">--}}
+                            {{--<img src="{{asset('img/profile.png')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">--}}
+                            {{--<div class="media-body">--}}
+                                {{--<h3 class="dropdown-item-title">--}}
+                                    {{--Nora Silvester--}}
+                                    {{--<span class="float-right text-sm text-warning"><i class="fa fa-star"></i></span>--}}
+                                {{--</h3>--}}
+                                {{--<p class="text-sm">The subject goes here</p>--}}
+                                {{--<p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<!-- Message End -->--}}
+                    {{--</a>--}}
+                    {{--<div class="dropdown-divider"></div>--}}
+                    {{--<a href="#" class="dropdown-item dropdown-footer">See All Messages</a>--}}
+                {{--</div>--}}
+            {{--</li>--}}
+            {{--<!-- Notifications Dropdown Menu -->--}}
+            {{--<li class="nav-item dropdown">--}}
+                {{--<a class="nav-link" data-toggle="dropdown" href="#">--}}
+                    {{--<i class="far fa-bell" style="font-size: 20px"></i>--}}
+                    {{--<span class="badge badge-warning navbar-badge">5</span>--}}
+                {{--</a>--}}
+                {{--<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">--}}
+                    {{--<span class="dropdown-header">5 Notifications</span>--}}
+                    {{--<div class="dropdown-divider"></div>--}}
+                    {{--<a href="#" class="dropdown-item">--}}
+                        {{--<i class="fa fa-envelope mr-2"></i> 4 new messages--}}
+                        {{--<span class="text-muted text-sm">3 mins</span>--}}
+                    {{--</a>--}}
+                    {{--<div class="dropdown-divider"></div>--}}
+                    {{--<a href="#" class="dropdown-item">--}}
+                        {{--<i class="fa fa-users mr-2"></i> 8 friend requests--}}
+                        {{--<span class=" text-muted text-sm">12 hours</span>--}}
+                    {{--</a>--}}
+                    {{--<div class="dropdown-divider"></div>--}}
+                    {{--<a href="#" class="dropdown-item">--}}
+                        {{--<i class="fa fa-file mr-2"></i> 3 new reports--}}
+                        {{--<span class=" text-muted text-sm">2 days</span>--}}
+                    {{--</a>--}}
+                    {{--<div class="dropdown-divider"></div>--}}
+                    {{--<a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>--}}
+                {{--</div>--}}
+            {{--</li>--}} -->
             <li class="nav-item">
                 <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
                             class="fa fa-th-large"></i></a>
@@ -162,8 +163,8 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="#" class="brand-link">
-            <img src="{{asset('img/logo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-                 style="opacity: .8">
+            {{--<img src="{{asset('img/logo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"--}}
+                 {{--style="opacity: .8">--}}
             <span class="brand-text font-weight-light">SMS</span>
         </a>
 
@@ -267,12 +268,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('logout') }}"
+                        <a href="{{ route('logout') }}" class="nav-link"
                            onclick="event.preventDefault();
-                           document.getElementById('logout-form').submit();"
-                           class="nav-link">
+                           document.getElementById('logout-form').submit();">
                             <i class="nav-icon fas fa-power-off"></i>
-                            {{ __('Logout') }}
+                            <p>{{ __('Logout') }}</p>
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
@@ -287,15 +287,15 @@
     </aside>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-
+        <div class="col-md-12" style="padding: 10px"></div>
         <!-- vue js router-->
         <router-view></router-view>
         <!-- Content Header (Page header) -->
         <!-- /.content-header -->
         <!-- Main content -->
-        <main class="py-4">
+        <section class="content">
             @yield('content')
-        </main>
+        </section>
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -324,6 +324,13 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+@yield('javascript')
 <script src="{{ mix('js/app.js') }}"></script>
+<script>
+    $(function () {
+        $('[tool="tooltip"]').tooltip()
+    })
+</script>
+
 </body>
 </html>

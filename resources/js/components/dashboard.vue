@@ -31,7 +31,7 @@
         //wen created fire of an ajax request and fetch all student
         // object destructuring trick
         mounted(){
-            axios.get('/student')
+            axios.get('/dashboard')
                 .then(({data}) => this.students = data);
         }
     }

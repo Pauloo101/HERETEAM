@@ -23,6 +23,9 @@ Route::resource('/teacher','TeacherController');
 Route::resource('/Class','ClassroomController');
 Route::resource('/gradesystem','GradeController');
 Route::resource('/subject','SubjectController');
+Route::post('/subject/assignclass','SubjectController@assignclass')->name('subject.assignclass');
+Route::post('/subject/Regstudent', 'SubjectController@Regstudent')->name('subject.Regstudent');
+Route::resource('/classroom&subject','Pivot\classroom_subjectController');
 Route::get('/dashboard', function (){
     return App\Models\Student::with('classroom')->latest()->get();
 });

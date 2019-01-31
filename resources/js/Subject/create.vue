@@ -4,7 +4,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Create Class.vue
+                        Create subject.vue
                     </div>
                     <div class="card-body">
                         <form @submit.prevent="createsubject" @keydown="form.onKeydown($event)">

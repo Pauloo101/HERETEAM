@@ -18,6 +18,7 @@ let routes = [
         component:require('./views/Home')
     },
     {
+        //this the laracast home page
         path: '/',
         name: 'home',
         component: Home
@@ -52,7 +53,7 @@ let routes = [
 
 
 export default new VueRoute({
-    mode:'history',
+    // mode:'history',
     routes
 
 });

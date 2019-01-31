@@ -14,10 +14,15 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $student = Student::all();
-        //return Student::with('classroom')->latest()->get();
+        // return Student::with('classroom')->latest()->get();
         return view('student.Index', compact('student'));
     }
 
@@ -28,75 +33,74 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $classroom= Classroom::all();
-        return view('Student.create')->with('classroom',$classroom);
+        $classroom = Classroom::all();
+        return view('Student.create')->with('classroom', $classroom);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'gender'=>'required',
-            'matric_no'=>'required',
-            'classroom_id'=>'required'
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'gender' => 'required',
+            'matric_no' => 'required',
+            'classroom_id' => 'required'
         ]);
-       $student = new Student;
-       $student->matric_no = $request->matric_no;
-       $student->first_name = $request->first_name;
-       $student->last_name = $request->last_name;
-       $student->gender = $request->gender;
-       $student->classroom_id = $request->classroom_id;
-       $student->DOB = $request->DOB;
-       if($request->hasFile('photo')) {
-           $photo = $request->file('photo');
-           $filename = time() . '.' . $photo->getClientOriginalExtension();
-           Image::make($photo)->resize(50, 50)->save(public_path('/img/' . $filename));
-           $student->photo = $filename;
-       }
-       else{
-           $student->photo =  $request->null;
-    }
-       $student->save();
+        $student = new Student;
+        $student->matric_no = $request->matric_no;
+        $student->first_name = $request->first_name;
+        $student->last_name = $request->last_name;
+        $student->gender = $request->gender;
+        $student->classroom_id = $request->classroom_id;
+        $student->DOB = $request->DOB;
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $filename = time() . '.' . $photo->getClientOriginalExtension();
+            Image::make($photo)->resize(50, 50)->save(public_path('/img/' . $filename));
+            $student->photo = $filename;
+        } else {
+            $student->photo = $request->null;
+        }
+        $student->save();
         return redirect()->route('student.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $student = Student::find($id);
-        return view('student.show')->with('student',$student);
+        return view('student.show')->with('student', $student);
 
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $student = Student::find($id);
-        return view('student.edit',compact('student','id'));
+        return view('student.edit', compact('student', 'id'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -116,7 +120,7 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

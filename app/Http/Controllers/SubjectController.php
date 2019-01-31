@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
+use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -14,10 +16,41 @@ class SubjectController extends Controller
      */
     public function index()
     {
+//        $subject = Subject::all();
+       //$class = Classroom::all();
+        $classroom = Classroom::with('subjects')->get();
         $subjects = Subject::all();
-        return view('Subject.index',compact('subjects'));
+        //with('classrooms')->get();
+        //$sub=Subject::with('classrooms')->get()->diff($subjects);
+        //$diff = $class->diff($classroom);
+        //$here = $subjects->classrooms
+        //dd($sub);
+        return view('Subject.index',compact('subjects','classroom','diff'));
+    }
+    //assign a class to a subject
+    public function assignclass(Request $request)
+    {
+        $subject = Subject::find($request->input('subject_id'));
+        $subject->classrooms()->sync($request->classroom_id, false);
+        //$classroom = Classroom::where('id',$request->input('classroom_id'))->first();
+//        dd($subject,$classroom);
+//        if($classroom){
+//            $subject->classrooms()->attach($classroom->id);
+//        }
+       // $assigned = Student::find($subject)->classrooms;
+        return redirect()->route('subject.show',['subject'=>$subject]);
     }
 
+    public function Regstudent(Request $request)
+    {
+        $subject = Subject::find($request->input('subject_id'));
+        $subject->students()->sync($request->student_id, false);
+        return redirect()->route('subject.show',['subject'=>$subject]);
+
+    }
+    public function RegClass(){
+        // all student in a class in subject.show
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -54,8 +87,11 @@ class SubjectController extends Controller
     public function show($id)
     {
         $subject = Subject::find($id)->classrooms;
+        $subname = Subject::find($id);
+        $classroom = Classroom::all();
+        $students = Student::all();
         //return $subject;
-          return view ('Subject.show', compact('subject'));
+          return view ('Subject.show', compact('subject','subname','students'));
     }
 
     /**

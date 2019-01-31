@@ -11,13 +11,10 @@ window.axios = axios;
 window.Form =  Form;
 Vue.use(VueRouter);
 
-
-
-
-
 require ('./bootstrap');
 require('./jquery.dataTables');
 require('./dataTables.bootstrap4');
+require('./select2.full.min');
 import App from './views/App'
 
 

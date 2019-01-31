@@ -9,7 +9,7 @@ class Subject extends Model
     public function classrooms(){
         return $this->belongsToMany(Classroom::class);
     }
-    public function student(){
+    public function students(){
         return $this->belongsToMany(Student::class);
     }
 }

@@ -9,6 +9,7 @@
                     <h3 class="card-title">Student</h3>
                 </div>
                 <div class="col text-right">
+
                     <select class="form-control-sm" style="margin-right: 3px; width: 110px; height: 37px" name="" id="">
                         <option value="" selected>Select Class</option>
                     </select>
@@ -84,14 +85,14 @@
                                     <td>
                                         <form action="{{ route('student.destroy',$students->id) }}" method="POST">
 
-                                            <a class="btn btn-info" href="{{ route('student.show',$students->id) }}">Show</a>
+                                            <a class="btn btn-info" href="{{ route('student.show',$students->id) }}"><i class="far fa-eye"></i></a>
 
-                                            <a class="btn btn-primary" href="{{ route('student.edit',$students->id) }}">Edit</a>
+                                            <a class="btn btn-primary" href="{{ route('student.edit',$students->id) }}"><i class="far fa-edit"></i></a>
 
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                         </form>
                                     </td>
 
@@ -119,8 +120,8 @@
         </div>
         <!-- /.card-body -->
     </div>
-    <div class="row">
 
+    <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
@@ -195,9 +196,29 @@
             <!-- /.card-body -->
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-
+@endsection
+@section('javascript')
     <script src="./plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -210,6 +231,10 @@
     <script src="./plugins/fastclick/fastclick.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="./dist/js/demo.js"></script>
+
+    <script>
+
+    </script>
     <!-- page script -->
     <script>
         $(function () {
@@ -223,6 +248,6 @@
                 "autoWidth": false
             });
         });
-    </script>
 
-@endsection
+    </script>
+@stop
