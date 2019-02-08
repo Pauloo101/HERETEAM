@@ -21660,3 +21660,8 @@ readers do not read off random characters that represent icons */
   color: #ffffff;
 }
 
+.tabledit-toolbar.btn-toolbar {
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+

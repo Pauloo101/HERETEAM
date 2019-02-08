@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pivot;
 
+use App\student_subject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -57,7 +58,7 @@ class student_subjectController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -69,7 +70,13 @@ class student_subjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $studentsubject = student_subject::find($id);
+        $studentsubject->testone = $request->testone;
+        $studentsubject->testtwo = $request->testtwo;
+        $studentsubject->testthree = $request->testthree;
+        $studentsubject->exam = $request->exam;
+        $studentsubject->save();
+        return redirect()->route('subject.index');
     }
 
     /**

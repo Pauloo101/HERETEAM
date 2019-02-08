@@ -25,7 +25,9 @@ Route::resource('/gradesystem','GradeController');
 Route::resource('/subject','SubjectController');
 Route::post('/subject/assignclass','SubjectController@assignclass')->name('subject.assignclass');
 Route::post('/subject/Regstudent', 'SubjectController@Regstudent')->name('subject.Regstudent');
+Route::post('/subject/Regclass','SubjectController@RegClass')->name('subject.RegClass');
 Route::resource('/classroom&subject','Pivot\classroom_subjectController');
+Route::resource('/student&subject','Pivot\student_subjectController');
 Route::get('/dashboard', function (){
     return App\Models\Student::with('classroom')->latest()->get();
 });

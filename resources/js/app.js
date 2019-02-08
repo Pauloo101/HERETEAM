@@ -15,6 +15,7 @@ require ('./bootstrap');
 require('./jquery.dataTables');
 require('./dataTables.bootstrap4');
 require('./select2.full.min');
+require('./jquery.tabledit.min');
 import App from './views/App'
 
 

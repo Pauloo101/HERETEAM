@@ -23,51 +23,21 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            <div id="example1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+            <div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-hover dataTable" role="grid"
-                               aria-describedby="example1_info">
+                        <table id="example1" class="table table-bordered table-hover dataTable">
                             <thead>
-                            <tr role="row">
-                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                    aria-label="Rendering engine: activate to sort column descending"
-                                    aria-sort="ascending">
-                                    ID
-                                </th>
-                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                    aria-label="Rendering engine: activate to sort column descending"
-                                    aria-sort="ascending">
-                                    Passport
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                    aria-label="Browser: activate to sort column ascending">
-                                    Matric Number
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                    aria-label="Platform(s): activate to sort column ascending">
-                                    First Name
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                    aria-label="Engine version: activate to sort column ascending">
-                                    Last Name
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                    aria-label="CSS grade: activate to sort column ascending">
-                                    Gender
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                    aria-label="CSS grade: activate to sort column ascending">
-                                    DOB
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                    aria-label="CSS grade: activate to sort column ascending">
-                                    Class
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                    aria-label="CSS grade: activate to sort column ascending">
-                                    Action
-                                </th>
+                            <tr>
+                                <th>ID</th>
+                                <th>Passport</th>
+                                <th>Matric Number</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>DOB</th>
+                                <th>Class</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -85,14 +55,17 @@
                                     <td>
                                         <form action="{{ route('student.destroy',$students->id) }}" method="POST">
 
-                                            <a class="btn btn-info" href="{{ route('student.show',$students->id) }}"><i class="far fa-eye"></i></a>
-
-                                            <a class="btn btn-primary" href="{{ route('student.edit',$students->id) }}"><i class="far fa-edit"></i></a>
-
+                                            <a class="btn btn-info" href="{{ route('student.show',$students->id) }}">
+                                                <i class="far fa-eye"></i>
+                                            </a>
+                                            <a class="btn btn-primary" href="{{ route('student.edit',$students->id) }}">
+                                                <i class="far fa-edit"></i>
+                                            </a>
                                             @csrf
                                             @method('DELETE')
-
-                                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
                                         </form>
                                     </td>
 
@@ -101,15 +74,15 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th rowspan="1" colspan="1">ID</th>
-                                <th rowspan="1" colspan="1">Passport</th>
-                                <th rowspan="1" colspan="1">Matric Number</th>
-                                <th rowspan="1" colspan="1">First Name</th>
-                                <th rowspan="1" colspan="1">Last Name</th>
-                                <th rowspan="1" colspan="1">Gender</th>
-                                <th rowspan="1" colspan="1">DOB</th>
-                                <th rowspan="1" colspan="1">Class</th>
-                                <th rowspan="1" colspan="1">Action</th>
+                                <th>ID</th>
+                                <th>Passport</th>
+                                <th>Matric Number</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>DOB</th>
+                                <th>Class</th>
+                                <th>Action</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -139,9 +112,7 @@
                         bus fee
                         hostel
                         feeding
-
                     </div>
-
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -189,7 +160,6 @@
                     bus fee
                     hostel
                     feeding
-
                 </div>
 
             </div>
@@ -197,7 +167,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -239,14 +210,7 @@
     <script>
         $(function () {
             $("#example1").DataTable();
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false
-            });
+
         });
 
     </script>

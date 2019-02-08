@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('style')
     {{--<link rel="stylesheet" href="{{asset('css/select2.min.css')}}">--}}
-    @endsection
+@endsection
 @section('content')
     <div class="row">
         <div class="col-md-3">
@@ -71,6 +71,8 @@
                 </div>
                 <!-- /.card-body -->
             </div>
+
+
             <!-- /.card -->
         </div>
         <!-- /.col -->
@@ -99,16 +101,20 @@
                                 <div class="card-header">
                                     <h6>Register Subject to all students in a class</h6>
                                 </div>
-                                <div class="card-body">
-                                    <select class="form-control form-group">
-                                        <optgroup label="select a class">
-                                            @foreach($subject as $classrooms)
-                                            <option value="13">{{$classrooms->name}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    </select>
-                                    <button class=" btn btn-outline-secondary"> Register</button>
-                                </div>
+                                <form action="{{route('subject.RegClass')}}" method="post">
+                                    <input name="subject_id" value="{{$subname->id}}" type="hidden">
+                                    @csrf
+                                    <div class="card-body">
+                                        <select class="form-control form-group" name="classroom_id">
+                                            <optgroup label="select a class">
+                                                @foreach($subject as $classrooms)
+                                                    <option value="{{$classrooms->id}}">{{$classrooms->name}}</option>
+                                                @endforeach
+                                            </optgroup>
+                                        </select>
+                                        <button class=" btn btn-outline-secondary" type="submit"> Register</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="col-md-8">
@@ -120,37 +126,109 @@
                                     <form method="post" action="{{ route('subject.Regstudent')}}">
                                         <input name="subject_id" value="{{$subname->id}}" type="hidden">
                                         @csrf
-                                    <select class="form-control form-group select2" name="student_id" multiple="multiple" data-placeholder="Select or type matric_no">
-                                        @foreach($students as $student)
-                                        <option value="{{$student->id}}">{{$student->matric_no}}</option>
-                                        @endforeach
-                                    </select>
-                                    <button class="btn btn-outline-secondary form-group" type="submit" style="margin-top: 10px"> Register</button>
+                                        <select class="form-control form-group select2" name="student_id[]"
+                                                multiple="multiple" data-placeholder="Select or type matric_no">
+                                            @foreach($students as $student)
+                                                <option value="{{$student->id}}">{{$student->matric_no}}</option>
+                                            @endforeach
+                                        </select>
+                                        <button class="btn btn-outline-secondary form-group" type="submit"
+                                                style="margin-top: 10px"> Register
+                                        </button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="card-footer p-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6> Record Management </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
 
+                                <div class="example table-responsive">
+                                    <table id="example5" class="table table-bordered table-hover dataTable example1">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Matric_no</th>
+                                            <th>Student Name</th>
+                                            <th>Class</th>
+                                            <th>test one</th>
+                                            <th>test two</th>
+                                            <th>test three</th>
+                                            <th>exam</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                         @foreach( $sspivot as $ss & $students as $here )
+                                        <tr>
+                                            <td>{{$ss->student_id}}</td>
+                                            <td>{{$ss->student_id}}</td>
+                                            <td>{{$student->last_name}}</td>
+                                            <td>{{$student->classroom->name}}</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                        </tr>
+                                         @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- /. box -->
         </div>
-        <!-- /.col -->
     </div>
 
 @endsection
 @section('javascript')
     <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
+    {{--<script type="text/javascript" src="{{ URL::asset('plugins/jquery/jquery.js') }}"></script>--}}
     <script src="{{ asset('js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.tabledit.min.js') }}"></script>
+    {{--<script src="{{ asset('js/babel-external-helpers.js') }}"></script>--}}
+    <script src="{{asset('js/jqtabledit.js')}}"></script>
     <script>
         $(function () {
             //Initialize Select2 Elements
             $('.select2').select2()
         })
     </script>
+    <script>
+    </script>
+    <script>
+        // //table search
+        // $(function () {
+        //     $('#search_field').on('keyup', function() {
+        //         var value = $(this).val();
+        //         var patt = new RegExp(value, "i");
+        //
+        //         $('#myTable').find('tr').each(function() {
+        //             if (!($(this).find('td').text().search(patt) >= 0)) {
+        //                 $(this).not('.myHead').hide();
+        //             }
+        //             if (($(this).find('td').text().search(patt) >= 0)) {
+        //                 $(this).show();
+        //             }
+        //
+        //         });
+        //     });
+        // })
 
-    @stop
+    </script>
+    <script>
+        $(function () {
+            $(".example1").DataTable();
+
+        });
+
+    </script>
+
+
+@stop

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classroom;
 use App\Models\Student;
 use App\Models\Subject;
+use App\student_subject;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -48,8 +49,13 @@ class SubjectController extends Controller
         return redirect()->route('subject.show',['subject'=>$subject]);
 
     }
-    public function RegClass(){
+    public function RegClass(Request $request){
         // all student in a class in subject.show
+        $subject = Subject::find($request->input('subject_id'));
+        $student  = Student::find($request->classroom_id)->pluck('id');
+        //dd($student);
+        $subject->students()->sync($student, false);
+        return redirect()->route('subject.show',['subject'=>$subject]);
     }
     /**
      * Show the form for creating a new resource.
@@ -90,8 +96,13 @@ class SubjectController extends Controller
         $subname = Subject::find($id);
         $classroom = Classroom::all();
         $students = Student::all();
+        $sspivot = student_subject::select()->where('subject_id', $id)->get();
+       $studentsub = Subject::find($id)->students;
+       //dd($studentsubject);
+        //here okay
         //return $subject;
-          return view ('Subject.show', compact('subject','subname','students'));
+          return view ('Subject.show', compact(
+              'subject','subname','students','studentsub','sspivot'));
     }
 
     /**
