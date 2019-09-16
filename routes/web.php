@@ -1,15 +1,7 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Models\sections;
+use App\Http\Controllers\TeacherController;
+use GuzzleHttp\Psr7\Response;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,17 +10,89 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+//Student core
 Route::resource('/student', 'StudentController');
+Route::get('/fetchstudent', 'StudentController@fetchstudent');
+Route::post('/updatestudent','StudentController@studentupdate');
+Route::get('/getrecords','StudentController@getrecords');
+Route::post('/record','Pivot\student_subjectController@record');
 Route::resource('/teacher','TeacherController');
-Route::resource('/Class','ClassroomController');
+Route::post('/subjectteacher', 'TeacherController@subjectteacher');
+Route::get('/getteachers',function(){
+    $teachers = \App\Models\Teacher::all();
+    return $teachers;
+});
+
+//Route::post('/Class','ClassroomController@store');
 Route::resource('/gradesystem','GradeController');
+//marks
+Route::get('/fetchmarks', 'Pivot\student_subjectController@fetchmarks');
+
+//subjects
 Route::resource('/subject','SubjectController');
+Route::get('/getsubject',function(){
+    $subject = \App\Models\Subject::all();
+    return $subject;
+});
+Route::get('/fetchsubject', 'SubjectController@fetchsubject');
+Route::get('/fetchclass/{id}', function($id){
+    $classroom = \App\Models\Subject::find($id)->classrooms;
+    return $classroom;
+});
 Route::post('/subject/assignclass','SubjectController@assignclass')->name('subject.assignclass');
 Route::post('/subject/Regstudent', 'SubjectController@Regstudent')->name('subject.Regstudent');
 Route::post('/subject/Regclass','SubjectController@RegClass')->name('subject.RegClass');
 Route::resource('/classroom&subject','Pivot\classroom_subjectController');
 Route::resource('/student&subject','Pivot\student_subjectController');
-Route::get('/dashboard', function (){
+Route::get('/dashboard/{here}', function (){
     return App\Models\Student::with('classroom')->latest()->get();
 });
+
+
+
+
+
+//section and classroom
+Route::post('/storesection','ClassroomController@storesection');
+Route::get('/section','ClassroomController@indexsection')->middleware('cors');
+Route::resource('/Class','ClassroomController');
+Route::post('/classupdate','ClassroomController@classupdate');
+Route::post('/classdelete','ClassroomController@classdelete');
+Route::get('/classroom', function (){
+   return \App\Models\Classroom::all();
+});
+Route::post('/updatesection','ClassroomController@updatesection');
+//select class and section
+Route::get('/search/{gg}', function ($gg){
+    $here = \App\Models\Classroom::find($gg)->sections()->get();
+
+    return $here;
+});
+Route::get('/why',function(){
+    $here = \App\Models\sections::all();
+    return $here;
+});
+
+//settings
+Route::resource('/settings','SettingController');
+Route::get('/getsettings', function(){
+$settings = \App\Setting::all();
+return $settings;
+});
+//session
+Route::resource('/session','SessionController');
+//term
+Route::resource('/term','TermController');
+//assign student to subject
+
+
+// Route::post('/ccc', 'TeacherController@here');
+//test and exam records
+Route::post('/save','RecordController@save');
+// Route::post('/testtwo',);
+// Route::post('/testthree',);
+// Route::post('/exam',);
+
+//configstudent vue file
+Route::get('/getparent','StudentController@getparent');
 

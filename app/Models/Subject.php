@@ -10,6 +10,8 @@ class Subject extends Model
         return $this->belongsToMany(Classroom::class);
     }
     public function students(){
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class)
+            ->withPivot('id','classroom_name','testone','testtwo','testthree','exam');
     }
+
 }

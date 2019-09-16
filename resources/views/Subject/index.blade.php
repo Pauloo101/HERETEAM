@@ -1,111 +1,92 @@
 @extends('layouts.master')
-@section('style')
 
-@endsection
 @section('content')
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col">
-                        <h3 class="card-title">Subject</h3>
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Subject</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Subject</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+            <div class="col-md-2">
+                    <div class="row">
+                        <div class="col card">
+                            <div class="card-header p-2">
+                                <h3 class="card-title">ToolBar</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <ul class="nav nav-pills flex-column">
+                                    <li class="nav-item active">
+                                        <router-link to='/' class="nav-link">
+                                            <i class="fa fa-inbox pr-2" ></i>Subject Overview
+                                       </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link to="/mark" class="nav-link">
+                                            <i class="fa fa-check pr-2"></i> Marks
+                                        </router-link>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-file-text-o"></i> Drafts
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-filter"></i> Junk
+                                            <span class="badge bg-warning float-right">65</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-upload"></i> Import Student
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col text-right">
-                        <a href="/subject/create" class="btn btn-primary"> Create Subject</a>
-                        <router-link :to="{name: 'subject'}" class="btn btn-primary">subject create vue</router-link>
+                    <div class="row">
+                        <div class="col card">
+                            <div class="card-body p-0">
+                               <createsubject></createsubject>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        <div class="col-md-10">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    Subject Management
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <router-view ></router-view>
+                        <router-view name="subjects"></router-view>
+                        <router-view name="assignstudent"></router-view>
+                        <router-view name="assignteacher"></router-view>
+                        {{-- <subjects></subjects>
+                        <assignstudent></assignstudent>
+                        <assignteacher></assignteacher> --}}
                     </div>
                 </div>
-
-            </div>
-            <div class="card-body">
-                <table class="table table-hover table-bordered">
-                    <thead>
-                    <tr>
-                        <th> ID</th>
-                        <th> Name</th>
-                        <th>Assign to a class</th>
-                        <th>Register Students</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($subjects as $subject)
-                        <tr>
-                            <td>{{$subject->id}}</td>
-                            <td>{{$subject->name}}</td>
-                            <td>
-                                <button class="btn btn-primary" data-toggle="modal" data-target='#{{$subject->name}}'>
-                                    assign
-                                </button>
-                                <div role="group" class="btn-group">
-                                    @foreach($subject->classrooms as $classrooms)
-                                        @if ($classrooms->name)
-                                            <button class="btn btn-primary"
-                                                    type="button">{{$classrooms->name}}</button>
-                                        @else
-                                            <button class="btn btn-primary" type="button">no class
-                                            </button>
-                                        @endif
-                                    @endforeach
-                                </div>
-                                {{--modal to assign subject to a class--}}
-                                <div class="modal fade" id='{{$subject->name}}' tabindex="-1" role="dialog"
-                                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-
-                                        <div class="modal-content">
-                                            <form method="post" action="{{ route('subject.assignclass') }}">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title"
-                                                        id="exampleModalCenterTitle"> {{$subject->name}} </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    @csrf
-                                                    Classes already Assigned
-                                                    <input type="hidden" name="subject_id" value="{{$subject->id}}"
-                                                           class="form-control">
-                                                    <hr>
-                                                    <div role="group" class="btn-group">
-                                                        @foreach($subject->classrooms as $classrooms)
-                                                            @if ($classrooms->name)
-                                                                <button class="btn btn-primary"
-                                                                        type="button">{{$classrooms->name}}</button>
-                                                            @else
-                                                                <button class="btn btn-primary" type="button">no class
-                                                                </button>
-                                                            @endif
-                                                        @endforeach
-                                                    </div>
-                                                    <hr>
-                                                    <label>Assign a new one </label><br>
-                                                    <select name="classroom_id[]" class="form-control" multiple>
-                                                        @foreach($classroom as $classrooms)
-                                                            <option value="{{$classrooms->id}}"> {{$classrooms->name}} </option>
-                                                        @endforeach
-                                                    </select>
-
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">
-                                                        Close
-                                                    </button>
-                                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </td>
-                            <td><a class="btn btn-info" href="{{ route('subject.show',$subject->id) }}">Show</a></td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 $(function () {
     $('#example5').Tabledit({
-        url: '/student&subject',
+        url: '/record',
+        dataType: 'json',
         rowIdentifier: 'data-id',
         editButton: false,
         restoreButton: false,
@@ -17,30 +18,19 @@ $(function () {
         },
         columns: {
             identifier: [0, 'id'],
-            editable: [[3, 'testone'], [4, 'testtwo'], [5, 'testthree'],[6,'exam']]
+            editable: [[5, 'testone'], [6, 'testtwo'], [7, 'testthree'], [8, 'exam']]
         },
-        onDraw: function() {
-            console.log('onDraw()');
+        onSuccess: function (data, textStatus, jqXHR) {
+
         },
-        onSuccess: function(data, textStatus, jqXHR) {
-            console.log('onSuccess(data, textStatus, jqXHR)');
-            console.log(data);
-            console.log(textStatus);
-            console.log(jqXHR);
+        onFail: function (jqXHR, textStatus, errorThrown) {
+
         },
-        onFail: function(jqXHR, textStatus, errorThrown) {
-            console.log('onFail(jqXHR, textStatus, errorThrown)');
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        },
-        onAlways: function() {
-            console.log('onAlways()');
-        },
-        onAjax: function(action, serialize) {
-            console.log('onAjax(action, serialize)');
-            console.log(action);
-            console.log(serialize);
+        onAjax: function (action, serialize) {
+
+            console.log("on Ajax");
+            console.log("action : ", action);
+            console.log("data : ", serialize);
         }
     });
-});
+})

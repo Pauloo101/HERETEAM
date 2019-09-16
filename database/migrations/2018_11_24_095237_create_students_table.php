@@ -15,14 +15,20 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('matric_no', 12);
+            $table->integer('parent_id');
+            $table->string('matric_no')->unique();
             $table->string('first_name');
-            $table->string('last_name');
+            $table->string('surname');
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+            $table->string('religion')->nullable();
+            $table->string('homeaddress')->nullable();
             $table->string('photo')->default('profile.png')->nullable();
             $table->char('gender');
             $table->string('DOB');
-            $table->integer('classroom_id')->unsigned();
-            $table->foreign('classroom_id')->references('id')->on('classroom');
+            $table->boolean('Is_Active')->default(1);
+//            $table->integer('classroom_id')->unsigned();
+//            $table->foreign('classroom_id')->references('id')->on('classroom');
             $table->timestamps();
 
 

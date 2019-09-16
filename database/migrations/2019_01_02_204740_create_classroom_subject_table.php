@@ -14,8 +14,10 @@ class CreateClassroomSubjectTable extends Migration
     public function up()
     {
         Schema::create('classroom_subject', function (Blueprint $table) {
-            $table->integer('classroom_id');
-            $table->integer('subject_id');
+            $table->integer('classroom_id')->unsigned();
+            $table->integer('subject_id')->unsigned();
+            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->primary(['classroom_id','subject_id']);
         });
     }

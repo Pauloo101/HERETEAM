@@ -153,7 +153,8 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Matric_no</th>
-                                            <th>Student Name</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
                                             <th>Class</th>
                                             <th>test one</th>
                                             <th>test two</th>
@@ -162,18 +163,19 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                         @foreach( $sspivot as $ss & $students as $here )
+                                             @foreach($studentsub as $ss)
                                         <tr>
-                                            <td>{{$ss->student_id}}</td>
-                                            <td>{{$ss->student_id}}</td>
-                                            <td>{{$student->last_name}}</td>
-                                            <td>{{$student->classroom->name}}</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
+                                            <td>{{$ss->pivot->id}}</td>
+                                            <td>{{$ss->matric_no}}</td>
+                                            <td>{{$ss->first_name}}</td>
+                                            <td>{{$ss->last_name}}</td>
+                                            <td>{{$ss->pivot->classroom_name}}</td>
+                                            <td>{{$ss->pivot->testone}}</td>
+                                            <td>{{$ss->pivot->testtwo}}</td>
+                                            <td>{{$ss->pivot->testthree}}</td>
+                                            <td>{{$ss->pivot->exam}}</td>
                                         </tr>
-                                         @endforeach
+                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>

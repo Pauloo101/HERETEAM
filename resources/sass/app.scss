@@ -17,13 +17,14 @@
 @import "~@fortawesome/fontawesome-free/scss/icons";
 @import "~@fortawesome/fontawesome-free/scss/core";
 @import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~vue-select/src/scss/vue-select.scss";
 
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 .router-link-exact-active{
-  background-color: #0c5460;
+  background-color: rgb(23, 139, 145);
   color:#fff !important;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
@@ -36,4 +37,14 @@
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
 }
-
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active {
+    color: #fff;
+    background-color: #34cca6;
+}
+.card-header {
+    position: relative;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}

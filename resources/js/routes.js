@@ -1,28 +1,56 @@
 import VueRoute from 'vue-router';
 import Hello from './views/Hello';
-import Home from './views/Home';
+
 import dashboard from './components/dashboard';
-import CreateStudent from './Student/CreateStudent';
+
 import Class from  './Class/create';
 import Teacher from './Teacher/create';
-import subject from './Subject/create'
+// import createsubject from './Subject/create';
+import section from './Class/section'
+//student
+import admission from './Student/Create';
+import students from './Student/Students.vue';
+import configstudent from './Utility/configstudent';
+//subject
+import subjects from './Subject/subjects.vue';
+import assignstudent from './Subject/assignstudent.vue';
+import assignteacher from './Subject/assignteacher.vue';
+import mark from './Subject/marks.vue';
 let routes = [
+    //create new student
     {
-        path:'/createsubject',
-        name:'subject',
-        component:subject,
+        path:'/admission',
+        name:'admission',
+        component:admission,
+
     },
     {
-        path:'/laracast',
-        name:'laracast',
-        component:require('./views/Home')
+        path:'/',
+        // name:'subject2',
+        components: {
+            subjects:subjects,
+            assignstudent:assignstudent,
+            assignteacher:assignteacher,
+
+        }
     },
     {
-        //this the laracast home page
-        path: '/',
-        name: 'home',
-        component: Home
+        path:'/mark',
+        name:'mark',
+        component: mark
     },
+    {
+        path: '/configstudent',
+        name: 'configstudent',
+        component: configstudent
+    },
+    // {
+    //     // path:'/createsubject',
+    //     // // name:'subject',
+    //     // components:{
+    //     //     createsubject:createsubject,
+    //     // }
+    // },
     {
         path:'/teacher',
         name: 'Teacher',
@@ -30,13 +58,11 @@ let routes = [
     },
     {
         path:'/createclass',
-        name:'Class',
-        component: Class
-    },
-    {
-        path:'/CreateStudent',
-        name: 'CreateStudent',
-        component: CreateStudent
+        //name:'Class',
+        components: { //double component render
+            a:Class,
+            b:section
+        }
     },
     {
         path: '/hello',
