@@ -7,7 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 //Route::get('/{any}', 'SpaController@index')->where('any', '.*');
-Auth::routes();
+Auth::routes(['register' =>  false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 //Student core
@@ -95,4 +95,14 @@ Route::post('/save','RecordController@save');
 
 //configstudent vue file
 Route::get('/getparent','StudentController@getparent');
+
+    //teacher route
+    Route::get('teachers/login','AuthTeacher\LoginController@showLoginForm')->name('teacher.login');
+    Route::post('teachers/login','AuthTeacher\LoginController@login');
+    Route::post('teachers/teacher-password/email','AuthTeacher\ForgotPasswordController@sendResetLinkEmail')->name('teacher.password.email');
+    Route::get('teachers/teacher-password/reset','AuthTeacher\ForgotPasswordController@showLinkRequestForm')->name('teacher.password.request');
+    Route::post('teachers/teacher-password/resest','AuthTeacher\ResetPasswordController@reset');
+    Route::get('teachers/teacher-password/resest/{token}','AuthTeacher\ResetPasswordController@showResetForm')->name('teacher.password.reset');
+    Route::get('/teachers','AuthTeacher\TeacherController@index');
+    Route::get('/teachers/teacher-subject','AuthTeacher\TeacherController@getsubject');
 

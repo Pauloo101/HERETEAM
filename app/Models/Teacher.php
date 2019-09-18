@@ -3,10 +3,17 @@
 namespace App\Models;
 
 use App\User;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
-class Teacher extends Model
+class Teacher extends Authenticatable
 {
+
+    use Notifiable;
+
+    protected $guard = 'teacher';
+
     protected $guarded = [];
 
     public function classrooms(){
@@ -17,4 +24,5 @@ class Teacher extends Model
         return  $this->belongsToMany(Subject::class, 'subject_teacher')->withPivot('session_id','term_id','section_id','classroom_id');
     }
 
+    protected $hidden = ['password', 'remember_token'];
 }

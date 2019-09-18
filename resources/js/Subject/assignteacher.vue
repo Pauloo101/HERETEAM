@@ -91,18 +91,18 @@ export default {
   methods:{
       fetchclass(){
            axios
-        .get("/fetchclass/" + this.subject)
+        .get("/fetchclass/" + this.form.subject)
         .then(({ data }) => (this.here = data));
       },
        search(){
-        axios.get('/search/'+ this.classroom)
+        axios.get('/search/'+ this.form.classroom)
             .then(({data}) => this.sections = data)
     },
     subjectteacher(){
         this.form.post('/subjectteacher')
         .then(response => {
             this.$bvToast.toast("Saved ", {
-            title: "Teacher assigned to class!",
+            title: "Teacher assigned to Subject!",
             variant: "success",
             solid: true
           });

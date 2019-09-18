@@ -41,6 +41,9 @@ Vue.component('createclass', require('./Class/create.vue'));
 Vue.component('createsection',require('./Class/section.vue'));
 Vue.component('classroom', require('./Class/class.vue'));
 Vue.component('sinfo',require('./Utility/sinfo'));
+//teacher
+Vue.component('login-teacher',require('./Teacher/login.vue'));
+Vue.component('teacher-subject', require('./Teacher-view/subjects.vue'));
 require ('./bootstrap');
 // require('./jquery.dataTables');
 // require('./dataTables.bootstrap4');

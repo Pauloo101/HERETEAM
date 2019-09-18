@@ -23,6 +23,8 @@ class CreateTeachersTable extends Migration
             $table->string('gender');
             $table->string('photo')->default('profile.png');
             $table->string('role')->nullable();
+            $table->rememberToken();
+            $table->string('password');
 //            $table->string('class_id')->nullable();
             $table->timestamps();
         });

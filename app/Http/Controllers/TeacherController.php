@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Setting;
+use App\subject_teacher;
 use Intervention\Image\Facades\Image;
 
 class TeacherController extends Controller
@@ -80,10 +81,10 @@ class TeacherController extends Controller
     }
     public function subjectteacher(Request $request){
         $this->validate( $request , [
-            'subject_id'=> 'required',
-            'classroom_id'=> 'required',
+            'subject'=> 'required',
+            'classroom'=> 'required',
             'teacher_id' => 'required',
-            'section_id' => 'required'
+            'section' => 'required'
         ]
         );
         $settings = Setting::select()->where('Is_Active', 1)->first();
