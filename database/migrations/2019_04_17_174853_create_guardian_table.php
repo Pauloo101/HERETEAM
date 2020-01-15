@@ -16,7 +16,7 @@ class CreateGuardianTable extends Migration
         Schema::create('guardian', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('phone');
+            $table->string('phone');
             $table->string('relationship');
             $table->string('email');
             $table->string('occupation');

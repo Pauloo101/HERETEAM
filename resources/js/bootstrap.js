@@ -15,8 +15,8 @@ try {
 
     require('admin-lte');
     require('./jquery.dataTables');
-    require('./dataTables.bootstrap4');
-    require('./select2.full.min');
+    // require('./dataTables.bootstrap4');
+    // require('./select2.full.min');
 
 } catch (e) {}
 

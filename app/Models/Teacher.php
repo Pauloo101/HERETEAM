@@ -5,12 +5,13 @@ namespace App\Models;
 use App\User;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
 
 class Teacher extends Authenticatable
 {
 
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     protected $guard = 'teacher';
 

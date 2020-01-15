@@ -27,9 +27,6 @@
                         <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
                         <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                     </ul>
-                    <div class="card-tools">
-                        <button class="btn btn-outline-success"> Here</button>
-                    </div>
                 </div>
 
                 <div class="card-body">

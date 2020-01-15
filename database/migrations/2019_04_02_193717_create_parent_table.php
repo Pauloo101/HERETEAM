@@ -15,14 +15,17 @@ class CreateParentTable extends Migration
     {
         Schema::create('parent', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->string('father_name');
-            $table->string('father_email');
+            $table->string('email')->unique();
             $table->string('father_occupation');
-            $table->integer('father_phone');
+            $table->string('father_phone')->unique();
             $table->string('mother_name');
-            $table->string('mother_email');
+            $table->string('password');
+            // $table->string('mother_email')->unique();
             $table->string('mother_occupation');
-            $table->string('mother_phone');
+            $table->string('mother_phone')->unique();
+            $table->string('token')->nullable();
             $table->string('is_guardian')->nullable();
             $table->timestamps();
         });

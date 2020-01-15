@@ -32,15 +32,16 @@
               <has-error :form="form" field="session"></has-error>
             </div>
 
-            <p v-show="false">{{name}}</p>
+            <p v-show="false">{{sessionname}}</p>
             <div class="form-group">
               <label>Started at</label>
-              <date-picker v-model="started_at" lang="en" type="year" format="YYYY"></date-picker>
+              <date-picker v-model="started_at" lang="en" type="month" format="YYYY-MM"></date-picker>
             </div>
             <div class="form-group">
               <label class="mr-3">End at</label>
-              <date-picker v-model="end_at" lang="en" type="year" format="YYYY"></date-picker>
+              <date-picker v-model="end_at" lang="en" type="month" format="YYYY-MM"></date-picker>
             </div>
+            <p>{{details}}</p>
           </b-modal>
         </div>
       </div>
@@ -78,27 +79,52 @@ export default {
 
   data() {
     return {
-      started_at: new Date(),
+      started_at:new Date(),
       end_at: new Date(),
       form: new Form({
-        session: ""
+        session: "",
+        started_at:'',
+        ended_at:'',
+
       })
     };
   },
   computed: {
-    jum() {
+    getstartyear() {
       return this.started_at.getFullYear();
     },
-    hum() {
+    getstartmonth(){
+      return this.started_at.toLocaleString('default', { month: 'long' });
+    },
+    getendmonth(){
+        return this.end_at.toLocaleString('default', { month: 'long' });
+    },
+    getendyear() {
       return this.end_at.getFullYear();
     },
-    name() {
-      this.form.session = this.jum + "/" + this.hum;
+    sessionname() {
+      this.form.session = this.getstartyear + "/" + this.getendyear;
       return this.form.session;
     },
     sessions(){
         return this.$store.state.sessions;
-    }
+    },
+    details(){
+        let start = this.getstartmonth + " "+ this.getstartyear
+        let end = this.getendmonth + " " + this.getendyear
+         this.form.started_at = start
+         this.form.ended_at = end
+        let details = start + " / "+ end
+        return details;
+    },
+    // start(){
+    //     this.form.started_at = this.getstartmonth + " "+ this.getstartyear
+    //     return
+    // },
+    // end(){
+    //     this.form.ended_at = this.getendmonth + " " + this.getendyear
+    //     return
+    // }
   },
   mounted() {},
   methods: {

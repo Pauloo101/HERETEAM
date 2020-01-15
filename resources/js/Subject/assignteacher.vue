@@ -29,6 +29,7 @@
                 <label class="mb-0" >Select Section</label>
                 <select class="form-control form-control-sm"  v-model="form.section" >
                   <optgroup label="This is a group">
+                      <option value="0">all</option>
                     <option
                       v-for="temp in sections"
                       :key="temp.id"

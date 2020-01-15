@@ -43,17 +43,7 @@
                                             <i class="fa fa-check pr-2"></i> Marks
                                         </router-link>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-file-text-o"></i> Drafts
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-filter"></i> Junk
-                                            <span class="badge bg-warning float-right">65</span>
-                                        </a>
-                                    </li>
+                                     
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
                                             <i class="fas fa-upload"></i> Import Student

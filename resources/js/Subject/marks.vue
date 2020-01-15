@@ -54,7 +54,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(mark, index) in marks" :key="mark.id">
+              <tr v-for="(mark, index) in marks" :key="index.id">
                 <td>{{mark.student_id}}</td>
                 <td>{{mark.student_name}}</td>
 
@@ -174,16 +174,6 @@ export default {
     subjects() {
       return this.$store.state.subjects;
     }
-
-    // test_one(index){
-    //     return
-    // },
-    // test_two(index){
-
-    // },
-    // test_three(index){
-
-    // }
   },
   methods: {
     fetchclass() {

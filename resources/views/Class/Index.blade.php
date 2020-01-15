@@ -71,7 +71,9 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="table-responsive">
-                            <classroom :classroom = "{{$classroom}}" ></classroom>
+                            {{-- <p>{{$classroom}}</p> --}}
+                            {{-- <classroom :classroom = "{{$classroom}}" ></classroom> --}}
+                            <classroom></classroom>
                             </div>
                         </div>
                         <div class="col-md-4">

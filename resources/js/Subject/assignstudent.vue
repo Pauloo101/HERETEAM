@@ -42,10 +42,10 @@
                   :reduce="classrooms => classrooms.id"
                 ></v-select>
               </div>
-              <p>{{classroom}} {{subject}}</p>
+              <!-- <p>{{classroom}} {{subject}}</p> -->
             </div>
             <div class="card-footer">
-              <button class="btn btn-outline-success" @click="subtoclass" :disabled="btnclass">Save</button>
+              <button class="btn btn-outline-primary" @click="subtoclass" :disabled="btnclass">Save</button>
             </div>
           </div>
           <!-- Assign subject to student -->
@@ -53,7 +53,7 @@
             <div class="card-body p-3">
               <div class="field">
                 <label class="mb-0" >Select Subject</label>
-                <select @change="fetchclass" class="form-control form-control-sm" v-model="subject">
+                <select @change="fetchclass" class="form-control form-control-sm" v-model="subject" >
                   <optgroup label="There are subject">
                     <option
                       v-for="subject in subjects"
@@ -116,8 +116,8 @@
               <!--</div>-->
             </div>
             <div class="card-footer">
-              <p>{{subject}}|{{classroom}}|{{section}}</p>
-              <button class="btn btn-outline-success" @click="subtostud">Save</button>
+              <!-- <p>{{subject}}|{{classroom}}|{{section}}</p> -->
+              <button class="btn btn-outline-success" @click="subtostud" :disabled="btnsub">Save</button>
             </div>
           </div>
         </div>
@@ -147,6 +147,11 @@ export default {
       if (this.subject == null || this.classroom.length <= 0) {
         return true;
       } else return false;
+    },
+    btnsub(){
+        if(this.subject == null || this.section == ''){
+            return true;
+        }else return false;
     }
   },
   created() {
@@ -179,6 +184,7 @@ export default {
         .get("/fetchclass/" + this.subject)
         .then(({ data }) => (this.here = data));
     },
+    //class and section
     search(){
         axios.get('/search/'+ this.classroom)
             .then(({data}) => this.sections = data)
@@ -186,6 +192,20 @@ export default {
     subtostud(){
       axios.post('/subject/Regclass',{subject: this.subject, classroom: this.classroom, section:this.section
       })
+      .then((response)=>{
+          Toast.fire({
+              type:'success',
+              title:response.data
+          })
+      })
+      .catch((e =>{
+        //   console.log(e.response)
+          Toast.fire({
+              type:'error',
+              title:'Processing this would cause duplicate entry',
+              timer:9000
+          })
+      }))
     }
   }
 };

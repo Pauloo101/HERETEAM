@@ -39,12 +39,14 @@ class ClassroomController extends Controller
     {
         $this->validate($request,[
             'name' =>'required|unique:classrooms',
-            'section_id' => 'required'
+            // 'section_id' => 'required'
         ]);
         $classroom = new Classroom;
         $classroom->name = $request->name;
         $classroom->save();
-        $classroom->sections()->sync($request->section_id, false);
+        if(count($request->section_id) > 0){
+             $classroom->sections()->sync($request->section_id, false);
+        }
         return redirect()->route('Class.index');
     }
 
@@ -115,5 +117,7 @@ class ClassroomController extends Controller
         return Response::json($section);
         //return $section;
     }
+    // todo
+    // class order
 
 }

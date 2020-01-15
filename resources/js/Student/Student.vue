@@ -177,15 +177,15 @@
                                                                 <li class="list-group-item">
                                                                     <div>
                                                                         <b>Father's Name</b> <a class="float-right" v-if="!fedit">{{parent.father_name}}</a>
-                                                                        <input v-else type="text" v-model="father.name" :placeholder="parent.father_name" class="form-control form-control-sm">
+                                                                        <input v-else type="text" v-model="father.father_name" :placeholder="parent.father_name" class="form-control form-control-sm">
 
                                                                     </div>
 
                                                                 </li>
                                                                 <li class="list-group-item">
                                                                     <div>
-                                                                        <b>Email</b> <a class="float-right" v-if="!fedit">{{parent.father_email}}</a>
-                                                                        <input type="text" v-else v-model="father.email" :placeholder="parent.father_email" class="form-control form-control-sm">
+                                                                        <b>Email</b> <a class="float-right" v-if="!fedit">{{parent.email}}</a>
+                                                                        <input type="text" v-else v-model="father.email" :placeholder="parent.email" class="form-control form-control-sm">
 
                                                                     </div>
 
@@ -197,7 +197,7 @@
                                                                 <li class="list-group-item">
                                                                     <div>
                                                                         <b>Phone</b> <a class="float-right" v-if="!fedit">{{parent.father_phone}}</a>
-                                                                        <input type="text" v-else v-model="father.phone" :placeholder="parent.father_phone" class="form-control form-control-sm">
+                                                                        <input type="text" v-else v-model="father.father_phone" :placeholder="parent.father_phone" class="form-control form-control-sm">
 
                                                                     </div>
 
@@ -226,7 +226,7 @@
                                                                 <li class="list-group-item">
                                                                     <div>
                                                                         <b>Mother's Name</b> <a class="float-right" v-if="!medit">{{parent.mother_name}}</a>
-                                                                        <input type="text" v-model="mother.name" class="form-control form-control-sm" v-else :placeholder="parent.mother_name">
+                                                                        <input type="text" v-model="mother.mother_name" class="form-control form-control-sm" v-else :placeholder="parent.mother_name">
 
                                                                     </div>
 
@@ -246,8 +246,8 @@
                                                                 <li class="list-group-item">
                                                                     <div>
 
-                                                                        <b>Phone</b> <a class="float-right"v-if="!medit">{{parent.mother_phone}}</a>
-                                                                        <input type="text" v-else v-model="mother.phone" :placeholder="parent.mother_phone" class="form-control form-control-sm">
+                                                                        <b>Phone</b> <a class="float-right" v-if="!medit">{{parent.mother_phone}}</a>
+                                                                        <input type="text" v-else v-model="mother.mother_phone" :placeholder="parent.mother_phone" class="form-control form-control-sm">
                                                                     </div>
 
                                                                 </li>
@@ -372,15 +372,15 @@
                     subject:''
                 }),
                father:{
-                    name:'',
+                  father_name:'',
                    email:'',
-                   phone:'',
+                   father_phone:'',
 
                },
                 mother:{
-                    name:'',
+                    mother_name:'',
                     email:'',
-                    phone:''
+                    mother_phone:''
                 },
                 parent: '',
                 records: '',
@@ -475,24 +475,44 @@
           });
         });
             },
-            updatemother(){},
-            updatefather(){},
+            updatemother(){
+                axios.post('/updateparent',{mother:this.mother,id:this.parent.id})
+                .then((response) => {
+                    this.$Progress.start()
+                    Toast.fire({
+                        type:'success',
+                        title:'Mother Update'
+                    })
+                     this.getall();
+                     this.$Progress.finish()
+                }).catch((err) => {
+                    Toast.fire({
+                        type:'error',
+                        title:'An error ocurred'
+                    })
+                });
+            },
+            updatefather(){
+                axios.post('/updateparent',{father:this.father,id:this.parent.id})
+                .then((response) => {
+                    this.$Progress.start()
+                    Toast.fire({
+                        type:'success',
+                        title:'Father Updated'
+                    })
+                    this.getall();
+                    this.$Progress.finish();
+                }).catch((err) => {
+                    consol.log('err')
+                    Toast.fire({
+                        type:'error',
+                        title:'An error ocurred'
+                    })
+                });
+            },
 
-            // created(){
-            // console.log('here');
-            // },
-
-        },
-
-        activated() {
-            this.$store.dispatch('loadsections');
-
-            axios.get('/search/'+ this.student.classroom_id)
-                    .then(({data}) => this.sections = data)
-
-
-                      // alert(this.student.id);
-            axios.get('/getparent', {
+            getall(){
+                 axios.get('/getparent', {
                 params: {
                     student_id: this.student.student_id
                 }
@@ -504,6 +524,16 @@
                 }
             })
                 .then(({data}) => (this.records = data));
+            }
+
+        },
+
+        activated() {
+            this.$store.dispatch('loadsections');
+
+            axios.get('/search/'+ this.student.classroom_id)
+                    .then(({data}) => this.sections = data)
+           this.getall()
 
         },
         deactivated(){

@@ -15,12 +15,12 @@ class CreateStudentSubjectTable extends Migration
     {
         Schema::create('student_subject', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('settings_id');
-            $table->unique(['session_id','term_id','student_id','subject_id','classroom_id']);
+            $table->integer('settings_id')->nullable();
+            $table->unique(['session_id','term_id','student_id','subject_id']);
             $table->integer('session_id')->unsigned();
             $table->integer('term_id')->unsigned();
             $table->integer('student_id')->unsigned();
-            $table->string('student_name')-nullable();
+            $table->string('student_name')->nullable();
             $table->integer('subject_id')->unsigned();
             $table->integer('classroom_id');
             $table->string('classroom_name')->nullable();
@@ -30,12 +30,18 @@ class CreateStudentSubjectTable extends Migration
             $table->integer('testtwo')->nullable()->default('0');;
             $table->integer('testthree')->nullable()->default('0');
             $table->integer('exam')->nullable();
+            $table->integer('testave')->nullable();
+            $table->integer('cumulatve')->nullable();
+            // Test ave
+            //test ave + exam --- ave
+            //class average
             $table->boolean('edit')->default(false);
-            $table->foreign('session_id')->references('id')->on('session')->onDelete('cascade');
-            $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
+            $table->boolean('approve')->default(0);
+            // $table->foreign('session_id')->references('id')->on('session')->onDelete('cascade');
+            // $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
+            // $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            // $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            // $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
             $table->timestamps();
 
 

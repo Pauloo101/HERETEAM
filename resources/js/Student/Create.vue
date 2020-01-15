@@ -39,6 +39,17 @@
             <has-error :form="form" field="first_name"></has-error>
           </div>
           <div class="col mb-3">
+            <label class="d-flex">Other Name</label>
+            <input
+              v-model="form.other_name"
+              name="other_name"
+              type="text"
+              class="form-control form-control-sm"
+              :class="{'is-invalid':form.errors.has('other_name')}"
+            >
+            <has-error :form="form" field="other_name"></has-error>
+          </div>
+          <div class="col mb-3">
             <label class="d-flex">Gender</label>
             <select
               v-model="form.gender"
@@ -132,15 +143,15 @@
               >
             </div>
             <div class="col mb-3">
-              <label class="d-flex">Father's Email</label>
+              <label class="d-flex">Email</label>
               <input
-                v-model="form.father_email"
-                name="father_email"
+                v-model="form.email"
+                name="email"
                 type="email"
                 class="form-control form-control-sm"
-                :class="{'is-invalid':form.errors.has('father_email')}"
+                :class="{'is-invalid':form.errors.has('email')}"
               >
-              <has-error :form="form" field="father_email"></has-error>
+              <has-error :form="form" field="email"></has-error>
             </div>
           </div>
           <div class="form-row">
@@ -175,7 +186,7 @@
                 class="form-control form-control-sm"
               >
             </div>
-            <div class="col mb-3">
+            <!-- <div class="col mb-3">
               <label class="d-flex">Mother's Email</label>
               <input
                 v-model="form.mother_email"
@@ -185,7 +196,7 @@
                 :class="{'is-invalid':form.errors.has('mother_email')}"
               >
               <has-error :form="form" field="mother_email"></has-error>
-            </div>
+            </div> -->
           </div>
 
           <div>
@@ -255,6 +266,9 @@
       </div>
       <div class="shadow card-footer text-right" style="background-color: white">
         <button type="submit" class="shadow btn btn-outline-success">Save</button>
+
+        <!-- <input v-model="ticket">
+        <button @click="check">kk</button> -->
       </div>
     </form>
   </div>
@@ -265,22 +279,24 @@
 
         data() {
             return {
+                // ticket:'',
                 classrooms:{},
                 section:{},
                 form: new Form({
                     matric_no: '',
                     surname: '',
                     first_name: '',
+                    other_name:'',
                     gender: '',
                     classroom_id: '',
                     section_id: '',
                     dob: '',
                     father_name: '',
-                    father_email: '',
+                    email: '',
                     father_occupation: '',
                     father_phone: '',
                     mother_name: '',
-                    mother_email: '',
+                    // mother_email: '',
                     mother_occupation: '',
                     mother_phone: '',
                     guardian_name: '',
@@ -297,6 +313,21 @@
             console.log('create student vue');
         },
         methods:{
+            // check(){
+            //     axios.post('/ticket', {ticket:this.ticket})
+            //     .then(response =>{
+            //         Toast.fire({
+            //             type:'success',
+            //             title:response.data
+            //         })
+            //     })
+            //     .catch((e)=>{
+            //         Toast.fire({
+            //             type:'error',
+            //             title:e.response.data
+            //         })
+            //     })
+            // },
             createstudent(){
                 this.form.post('/student')
             .then(response => {
@@ -316,14 +347,14 @@
             },
             bindtofather(){
             this.form.guardian_name = this.form.father_name
-            this.form.guardian_email= this.form.father_email
+            this.form.guardian_email= this.form.email
             this.form.guardian_occupation = this.form.father_occupation
             this.form.guardian_phone = this.form.father_phone
             this.form.relationship = "Father"
             },
             bindtomother(){
             this.form.guardian_name = this.form.mother_name
-            this.form.guardian_email= this.form.mother_email
+            this.form.guardian_email= this.form.email
             this.form.guardian_occupation = this.form.mother_occupation
             this.form.guardian_phone = this.form.mother_phone
             this.form.relationship = "Mother"

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Setting;
+use App\student_subject;
 use App\subject_teacher;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
@@ -51,6 +54,7 @@ class TeacherController extends Controller
             'last_name' => 'required',
             'user_name' => ['required','unique:teachers'],
             'email' =>['required', 'unique:teachers'],
+            'password'=>'required',
             'gender'=> 'required',
         ]);
         $settings = Setting::select()->where('Is_Active', 1)->first();
@@ -60,6 +64,9 @@ class TeacherController extends Controller
         $teacher->user_name = $request->user_name;
         $teacher->email = $request->email;
         $teacher->gender = $request->gender;
+        $password = Hash::make($request->password);
+        $teacher->password = $password;
+
         $teacher->save();
         /**
          * if ($request->hasFile('photo'))
@@ -74,12 +81,27 @@ class TeacherController extends Controller
         $teacher->classrooms()->attach($request->class_teacher,
             ['section_id' => $request->section_teacher, 'session_id' => $settings->session_id, 'term_id' => $settings->term_id]);
 
-        $teacher->subjects()->attach($request->subject , ['section_id' => $request->section_id, 'classroom_id' => $request->classroom, 'session_id' => $settings->session_id, 'term_id' => $settings->term_id]);
+        if($request->section_id == 0){
+            $classroom = Classroom::find($request->classroom)->sections()->get();
+
+            //for sync stuff
+            foreach ($classroom as $key => $value) {
+                $section =  $value->id;
+                $teacher->subjects()->attach($request->subject, ['section_id' => $section, 'classroom_id' => $request->classroom, 'session_id' => $settings->session_id, 'term_id' => $settings->term_id]);
+            }
+            return 'done';
+        }
+        else {
+            $teacher->subjects()->attach($request->subject , ['section_id' => $request->section_id, 'classroom_id' => $request->classroom, 'session_id' => $settings->session_id, 'term_id' => $settings->term_id]);
+        }
+
+
 
         return 'teacher.stored';
 
     }
     public function subjectteacher(Request $request){
+        // return $request;
         $this->validate( $request , [
             'subject'=> 'required',
             'classroom'=> 'required',
@@ -88,14 +110,19 @@ class TeacherController extends Controller
         ]
         );
         $settings = Setting::select()->where('Is_Active', 1)->first();
-        $subjectteacher = new subject_teacher;
-        $subjectteacher->session_id = $settings->session_id;
-        $subjectteacher->term_id = $settings->term_id;
-        $subjectteacher->section_id = $request->section;
-        $subjectteacher->classroom_id = $request->classroom;
-        $subjectteacher->subject_id = $request->subject;
-        $subjectteacher->teacher_id = $request->teacher_id;
-        $subjectteacher->save();
+        $teacher = Teacher::find($request->teacher_id);
+        if (($request->section == null)||($request->section == 0)) {
+            $classroom = Classroom::find($request->classroom)->sections()->get();
+            foreach ($classroom as $key => $value) {
+                $section =  $value->id;
+                $teacher->subjects()->attach($request->subject, ['section_id' => $section, 'classroom_id' => $request->classroom, 'session_id' => $settings->session_id, 'term_id' => $settings->term_id]);
+            }
+            return 'done';
+        } else {
+            $teacher->subjects()->attach($request->subject, ['section_id' => $request->section, 'classroom_id' => $request->classroom, 'session_id' => $settings->session_id, 'term_id' => $settings->term_id]);
+        }
+        //validation for duplicate value
+
         return ' subjetct teacher';
     }
 
@@ -138,14 +165,33 @@ class TeacherController extends Controller
         $teacher->email = $request->email;
         $teacher->role = $request->role;
         $teacher->class_id = $request->class_id;
-        if ($request->hasFile('photo'))
-            $photo = $request->file('photo');
-        $filename = time() . '.' . $photo->getClientOriginalExtension();
-        Image::make($photo)->resize(50, 50)->save(public_path('/img/' . $filename));
+        // if ($request->hasFile('photo'))
+        //     $photo = $request->file('photo');
+        // $filename = time() . '.' . $photo->getClientOriginalExtension();
+        // Image::make($photo)->resize(50, 50)->save(public_path('/img/' . $filename));
 
-        $teacher->photo = $filename;
+        // $teacher->photo = $filename;
         $teacher->save();
         return redirect()->route('teacher.index');
+    }
+
+    public function saverecord(Request $request)
+    {
+        $record =  student_subject::find($request->id);
+        $testone = $request->testone;
+        $testtwo = $request->testtwo;
+        $testthree = $request->testthree;
+        $exam = $request->exam;
+        $record->testone = empty($testone) ? $record->testone : $testone;
+        $record->testtwo = empty($testtwo) ? $record->testtwo : $testtwo;
+        $record->testthree = empty($testthree) ? $record->testthree : $testthree;
+        $record->exam = empty($exam) ? $record->exam : $exam;
+        //fountain
+        $record->testave = ($record->testone + $record->testtwo + $record->testthree) / 3 ;
+        $record->cumulatve = ($record->testave + $record->exam) / 2;
+        $record->save();
+
+        return 'Records Saved';
     }
 
     /**

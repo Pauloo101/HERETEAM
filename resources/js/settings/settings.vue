@@ -57,7 +57,14 @@
               <td>{{setting.session_name}}</td>
               <td>{{setting.term_name}}</td>
               <td>{{setting.Is_Active}}</td>
-              <td>action</td>
+              <td>
+                  <div v-if="setting.Is_Active == 1">
+                      <input type="checkbox" class="form-check-input" checked @change="deny">
+                  </div>
+                  <div v-if="setting.Is_Active == 0">
+                      <input type="checkbox" class="form-check-input" @change="ChangeSettings(setting)">
+                  </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -94,13 +101,54 @@ export default {
   created() {
     this.$store.dispatch("loadsessions");
     this.$store.dispatch("loadterms");
+    Fire.$on('getsettings', () => {
+        axios.get('/getsettings')
+    .then(({data})=> this.settings = data)
+    })
     axios.get('/getsettings')
     .then(({data})=> this.settings = data)
   },
   methods: {
     handleok() {
         axios.post('/settings',{'session':this.session, 'term':this.term, 'state':this.state})
-
+        .then(()=>{
+            this.$bvToast.toast("Settings Created", {
+            title: "Action Successful",
+            variant: "success",
+            solid: true
+          });
+          Fire.$emit('getsettings')
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.response.data, {
+            title: "Error",
+            variant: "danger",
+            solid: true
+          });
+          Fire.$emit('getsettings');
+        });
+    },
+    deny(){
+        alert("You Can't have an empty setting")
+    },
+    ChangeSettings(setting){
+        axios.put('/settings/'+ setting.id)
+        .then(()=>{
+            this.$bvToast.toast("Settings changed", {
+            title: "Action Successful",
+            variant: "success",
+            solid: true
+          });
+          Fire.$emit('getsettings')
+        })
+        .catch(() => {
+          this.$bvToast.toast("An error Occured", {
+            title: "Error",
+            variant: "danger",
+            solid: true
+          });
+          Fire.$emit('getsettings');
+        });
     }
   }
 };

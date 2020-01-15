@@ -26,11 +26,12 @@ class SubjectController extends Controller
 
     public function index()
     {
-        Student::find(1)->with('classrooms');
+        // Student::find(1)->with('classrooms');
 
-        $classroom = Classroom::with('subjects')->get();
-        $subjects = Subject::all();
-        return view('Subject.index', compact('subjects', 'classroom', 'diff'));
+        // $classroom = Classroom::with('subjects')->get();
+        // $subjects = Subject::all();
+        // return view('Subject.index', compact('subjects', 'classroom', 'diff'));
+        return view('Subject.index');
     }
 
     //assign a class to a subject
@@ -56,7 +57,6 @@ class SubjectController extends Controller
         $student_name = $student[0]["student_name"];
         $classroom_name = Classroom::find($classroom);
         $section_name = sections::find($id);
-
         foreach ($subjects as $subject ){
             $student_subject = new student_subject;
             $student_subject->session_id = $settings->session_id;
@@ -68,46 +68,17 @@ class SubjectController extends Controller
             $student_subject->section_name = $section_name->name;
             $student_subject->subject_id = $subject;
             $student_subject->student_name = $student_name;
-//        dd($student_subject);
             $student_subject->save();
         }
-
         return 'Assiged a single Student';
-            /***
-//        $subject = Subject::find($request->input('subject_id'));
-//        $studentname = Student::find($request->input('student_id'))->pluck('classroom_id');
-//        $name = Classroom::find($studentname)->pluck('name');
-//        //dd($name);
-
-             * $subject->students()->sync([$request->student =>
-            ['session_id' => $settings->session_id],
-            ['term_id' => $settings->term_id],
-            ['classroom_id' => $classroom],
-            ['classroom_name' => $classroom_name->name],
-            ['section_id' => $id],
-            ['section_name' => $section_name->name],
-            ['student_name' => $student_name]], false);
-             *
-//        //$subject->students()->sync([$request->student_id => ['classroom_name' => $request->input('classroom_name')]], false);
-//        return redirect()->route('subject.show',['subject'=>$subject]);
-//        $student = Student::find($request->input('student_id'))->classrooms;
-//        $classroom = Classroom::find([$student])->pluck('name');
-//        dd($classroom);
-
-
-//        return redirect()->route('subject.show', ['subject' => $subject]);
-             ***/
-
     }
 
     public function RegClass(Request $request)
     {
-        // dd($request);
-        // $id = $request->section;
-        // $section_name = sections::select()->where('id', $request->section)->pluck('name');
-        // $section_name = sections::find($id);
-        // dd($section_name->name);
         $settings = Setting::select()->where('Is_Active', 1)->first();
+        // $this->validate($request, [
+        //     'name' => ['required', 'unique:subjects']
+        // ]);
         $classroom = $request->classroom;
         $subject = $request->subject;
         $section = $request->section;
@@ -131,7 +102,7 @@ class SubjectController extends Controller
             $student_subject->student_name = $student->student_name;
             $student_subject->save();
         }
-        // dd($student);
+
         }
         else{
             $students = Student_Session::select()
@@ -155,26 +126,8 @@ class SubjectController extends Controller
                 $student_subject->student_name = $student->student_name;
                 $student_subject->save();
             }
-//            dd($student);
+//
         }
-
-
-
-/** all student in a class in subject.show
-$subject = Subject::find($request->input('subject'));
-dd($subject);
-$student = Student::find($request->classroom_id)->pluck('id');
-$id = $request->classroom_id;
-$student = Student::select()->where('classroom_id', $id)->pluck('id');
-dd($student);
-$classroom = Classroom::find($request->input('classroom_id'));
-$heree = $classroom->name;
-dd($heree);
-$here = $subject->students()->attach($student, ['classroom_name' => $heree], false);
-$subject->students()->save($student,['classroom_name'=>$heree]);
-$here = $subject->students()->updateExistingPivot(student_subject, '$heree');
-dd($here); */
-        // return redirect()->route('subject.show', ['subject' => $subject]);
         return 'done';
     }
 
@@ -275,5 +228,9 @@ dd($here); */
     public function destroy($id)
     {
         //
+    }
+    public function getsubject(){
+        $subject = Subject::with('classrooms')->get();
+        return $subject;
     }
 }

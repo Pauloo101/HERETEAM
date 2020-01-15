@@ -24,6 +24,12 @@
               >
               <has-error :form="form" field="name"></has-error>
             </div>
+            <div class="form-group">
+                 <label>Started at</label>
+              <date-picker v-model="started_at" lang="en" type="month" format="YYYY-MM"></date-picker>
+               <label class="mr-3">End at</label>
+              <date-picker v-model="end_at" lang="en" type="month" format="YYYY-MM"></date-picker>
+            </div>
           </b-modal>
         </div>
       </div>
@@ -57,15 +63,38 @@
 export default {
   data() {
     return {
+        started_at:new Date(),
+        end_at:new Date(),
       form: new Form({
-        name: ""
+        name: "",
+        started_at:'',
+        ended_at:'',
       })
     };
   },
   computed: {
       terms(){
           return this.$store.state.terms;
-      }
+      },
+      getstartyear() {
+      return this.started_at.getFullYear();
+    },
+    getstartmonth(){
+      return this.started_at.toLocaleString('default', { month: 'long' });
+    },
+    getendmonth(){
+        return this.end_at.toLocaleString('default', { month: 'long' });
+    },
+    getendyear() {
+      return this.end_at.getFullYear();
+    },
+    details(){
+        let start = this.getstartmonth + " "+ this.getstartyear
+        let end = this.getendmonth + " " + this.getendyear
+         this.form.started_at = start
+         this.form.ended_at = end
+         return details;
+    }
   },
   mounted() {},
   methods: {
@@ -96,6 +125,7 @@ export default {
     Fire.$on("term", () => {
       this.$store.dispatch("loadterms");
     });
+
   }
 };
 </script>

@@ -13,9 +13,11 @@ use App\Parents;
 use App\Guardian;
 use App\Setting;
 use App\Student_Session;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
+    public $parent;
     /**
      * Display a listing of the resource.
      *
@@ -28,9 +30,9 @@ class StudentController extends Controller
 
     public function index()
     {
-        $student = Student::all();
+        // $student = Student::all();
         // return Student::with('classroom')->latest()->get();
-        return view('student.Index', compact('student'));
+        return view('Student.Index');
     }
 
     /**
@@ -61,11 +63,11 @@ class StudentController extends Controller
             'section_id'=>'required',
             'dob'=>'required',
             'father_name'=>'required',
-            'father_email'=>'required',
+            'email'=>'required',
             'father_occupation'=>'required',
             'father_phone'=>'required',
             'mother_name'=>'required',
-            'mother_email'=>'required',
+            'other_name'=>'required',
             'mother_occupation'=>'required',
             'mother_phone'=>'required',
             'guardian_name'=>'required',
@@ -75,22 +77,28 @@ class StudentController extends Controller
             'relationship'=>'required',
             'guardian_address'=>'required'
         ]);
-
+        $password = Hash::make($request->surname);
         $settings = Setting::select()->where('Is_Active', 1)->first();
         // dd($settings->session_id);
         // dd($request);
-        $parent = new Parents;
-        $parent->father_name = $request->father_name;
-        $parent->father_email = $request->father_email;
-        $parent->father_occupation = $request->father_occupation;
-        $parent->father_phone = $request->father_phone;
-        $parent->mother_name = $request->mother_name;
-        $parent->mother_email = $request->mother_email;
-        $parent->mother_occupation = $request->mother_occupation;
-        $parent->mother_phone = $request->mother_phone;
-        $parent->is_guardian = $request->relationship;
-        $parent->save();
-        // // dd($parent);
+        $checkparent = Parents::where('father_phone',$request->father_phone)->orwhere('mother_phone',$request->mother_phone)->pluck('id');
+        // dd($checkparent);
+        if(count($checkparent) == 0){
+        $this->parent = new Parents;
+        $this->parent->name = $request->surname;
+        $this->parent->father_name = $request->father_name;
+        $this->parent->email = $request->email;
+        $this->parent->father_occupation = $request->father_occupation;
+        $this->parent->father_phone = $request->father_phone;
+        $this->parent->mother_name = $request->mother_name;
+        $this->parent->password = $password;
+        // $this->parent->mother_email = $request->mother_email;
+        $this->parent->mother_occupation = $request->mother_occupation;
+        $this->parent->mother_phone = $request->mother_phone;
+        $this->parent->is_guardian = $request->relationship;
+        $this->parent->save();
+        $this->parent = $this->parent->id;
+        // dd($parent);
         $guardian = new Guardian;
         $guardian->name = $request->guardian_name;
         $guardian->phone = $request->guardian_phone;
@@ -100,10 +108,18 @@ class StudentController extends Controller
         $guardian->relationship = $request->relationship;
         $guardian->guardian_is = $request->relationship;
         $guardian->save();
+        echo('if');
+        }
+        else {
+            $this->parent = $checkparent[0];
+            echo('else');
+        }
+        // dd($this->parent[0]);
         $student = new Student;
-        $student->parent_id = $parent->id;
+        $student->parent_id = $this->parent;
         $student->matric_no = $request->matric_no;
         $student->first_name = $request->first_name;
+        $student->other_name = $request->other_name;
         $student->surname = $request->surname;
         $student->gender = $request->gender;
         $student->DOB = $request->dob;
@@ -116,7 +132,6 @@ class StudentController extends Controller
         $student_session->section_id = $request->section_id;
         $student_session->student_name = $request->surname.' '.$request->first_name ;
         $student_session->save();
-
 
         // if ($request->hasFile('photo')) {
         //     $photo = $request->file('photo');
@@ -152,7 +167,7 @@ class StudentController extends Controller
             ->get();
             return $students;
         }
-        elseif(empty($request->section)){
+        elseif($request->classroom != null){
             $students = DB::table('student_session')
             ->join('classrooms','student_session.classroom_id', '=','classrooms.id')
             ->join('sections', 'student_session.section_id', '=', 'sections.id')
@@ -177,58 +192,39 @@ class StudentController extends Controller
 
                 return $students;
         }
-        return 'here';
-
-
-
-
-    //     $settings = Setting::select()->where('Is_Active', 1)->first();
-    // /** student from Student_Session */
-    //         $student = student_session::select()
-    //         ->where('session_id', $settings->session_id)
-    //         ->where('term_id', $settings->term_id)
-    //         ->where('classroom_id', $request->classroom)
-    //         ->where('section_id', $request->section)
-    //         ->pluck('student_id');
-    //         dd($student);
-
+        //fetch a single student
+        elseif($request->student ){
+            $data = $request->student;
+            $student = Student_Session::join('classrooms','student_session.classroom_id','=','classrooms.id')
+            ->join('sections','student_session.section_id','=','sections.id')
+            ->join('students',function($join){
+                $join->on('student_session.student_id','=','students.id')
+                ->where('students.Is_Active','=',1);
+            })->select(
+                'student_session.*',
+                'classrooms.name AS classroom',
+                'students.gender',
+                'students.first_name',
+                'students.surname',
+                'students.matric_no',
+                'students.dob',
+                'sections.name')
+                ->where('student_name','like', '%' . $data.'%')
+                ->where('session_id', $settings->session_id)
+                ->where('term_id', $settings->term_id)
+                ->get()->toArray();
+                //  $Arr = array($student);
+                // $students = $student->toArray();
+                return $student;
+        }
     }
 
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $student = Student::find($id);
         return view('student.show')->with('student', $student);
 
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $student = Student::find($id);
-        return view('student.edit', compact('student', 'id'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-
     public function studentupdate(Request $request){
 
         $this->validate($request, [
@@ -238,7 +234,7 @@ class StudentController extends Controller
             'classroom' => 'required',
             'section' => 'required',
         ]);
-//        dd($request);
+
         $student = Student::find($request->id);
         $student->matric_no = $request->matric_no;
         $student->surname = $request->surname;
@@ -250,13 +246,13 @@ class StudentController extends Controller
 
         // ssid -> student_ud -> if there is any changes cascade delete ****
         $ss = Student_Session::find($request->ssid);
-        if ($ss->classroom == $request->classroom)
+        if ($ss->classroom_id == $request->classroom)
         {
             $ss->classroom_id = $request->classroom;
             $ss->section_id  = $request->section;
             $ss->student_name = $request->surname . ' ' . $request->first_name;
             $ss->save();
-            return saved;
+            return 'student record updated';
         }
         else
         {
@@ -279,23 +275,8 @@ class StudentController extends Controller
 
     public function update(Request $request)
     {
-//        dd($request);
-//        $student = Student::find($id);
-//        $student->matric_no = $request->matric_no;
-//        $student->first_name = $request->first_name;
-//        $student->last_name = $request->last_name;
-//        $student->gender = $request->gender;
-//        $student->DOB = $request->DOB;
-//        $student->save();
-//        return redirect()->route('student.index');
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
+    }
     public function destroy($id)
     {
         $student = Student::find($id);
@@ -311,15 +292,6 @@ class StudentController extends Controller
     }
     public function getrecords(Request $request){
         $settings = Setting::select()->where('Is_Active', 1)->first();
-//        $student = Student::find($request->student_id);
-//        $records = $student->subjects()
-//            ->wherePivot('student_id','=', $request->student_id)
-//            ->wherePivot('session_id', '=', $settings->session_id)
-//            ->wherePivot('term_id', '=', $settings->term_id)
-//            ->get();
-//        dd($records);
-
-
         $student = $request->student_id;
         $student_subject = DB::table('student_subject')
             ->join('subjects', 'student_subject.subject_id','=','subjects.id')
@@ -331,6 +303,123 @@ class StudentController extends Controller
         return $student_subject;
 
 
+    }
+    public function searchstudent(Request $request){
+        $data = $request->search;
+        $settings = Setting::select()->where('Is_Active', 1)->first();
+        $students = Student::join('student_session',function($join) use($settings){
+                        $join->on('students.id','=','student_session.student_id')
+            ->where('student_session.session_id','=',$settings->session_id)
+            ->where('student_session.term_id','=',$settings->term_id);
+        })
+        ->join('classrooms','student_session.classroom_id','=','classrooms.id')
+        ->join('sections','student_session.section_id','=','sections.id')
+        ->select('students.first_name','students.surname', 'students.Is_Active',
+                 'students.gender','students.matric_no', 'students.id',
+                 'classrooms.id AS classroomid','classrooms.name AS classroom',
+                 'sections.id AS sectionid','sections.name As section')
+                 ->where('first_name','like', '%' . $data.'%')
+                ->orwhere('surname','like','%'. $data . '%')
+                ->orwhere('matric_no' , 'like' , '%' . $data . '%')->take(10)->get();
+        // dd($request->search);
+        return $students;
+    }
+    //promote student to new session
+    public function promotestudent(Request $request){
+        $settings = Setting::select()->where('Is_Active', 1)->first();
+        $this->validate($request,[
+            'session'=>'required',
+            'term'=>'required',
+            'classroom'=>'required',
+            'targetclass'=>'required'
+        ]);
+        $target_classroom = Classroom::find($request->targetclass)->sections()->get();
+        $student = DB::table('student_session')
+                    ->where('session_id',$settings->session_id)
+                    ->where('term_id',$settings->term_id)
+                    ->where('classroom_id',$request->classroom)->pluck('student_id')->toArray();
+                    // return $request->student;
+        if(!empty($request->student)){
+            $value = array_diff($student,$request->student);
+            foreach ($value as $student_id) {
+                //manual check
+                $check = Student_Session::where('session_id',$request->session)->where('term_id',$request->term)->where('student_id',$student_id)->get();
+                if(count($check) == 0){
+                    $current_student = Student_Session::where('session_id', $settings->session_id)
+                    ->where('term_id', $settings->term_id)->where('student_id', $student_id)->get();
+                $student_session = new Student_Session;
+                $student_session->session_id = $request->session;
+                $student_session->term_id = $request->term;
+                $student_session->student_id = $student_id;
+                $student_session->classroom_id = $request->targetclass;
+                $student_session->section_id = $target_classroom[0]->id;
+                $student_session->student_name = $current_student[0]->student_name;
+                $student_session->save();
+                }
+
+            }
+            //repeat student
+            foreach ($request->student as $r) {
+                $check = Student_Session::where('session_id', $request->session)->where('term_id', $request->term)->where('student_id', $r)->get();
+                if(count($check) == 0){
+                     $current_student = Student_Session::where('session_id', $settings->session_id)
+                    ->where('term_id', $settings->term_id)->where('student_id', $r)->get();
+
+                $student_session = new Student_Session;
+                $student_session->session_id = $request->session;
+                $student_session->term_id = $request->term;
+                $student_session->student_id = $r;
+                $student_session->classroom_id = $current_student[0]->classroom_id;
+                $student_session->section_id = $current_student[0]->section_id;
+                $student_session->student_name = $current_student[0]->student_name;
+                    $student_session->save();
+                }
+
+
+            }
+        //    $value = array_diff($student,$request->student);
+           return 'Student Promoted';
+        }else{
+            foreach ($student as $value) {
+                $check = Student_Session::where('session_id', $request->session)->where('term_id', $request->term)->where('student_id', $value)->get();
+                //compare
+                if(count($check) == 0){
+                     $current_student = Student_Session::where('session_id',$settings->session_id)
+                ->where('term_id',$settings->term_id)->where('student_id',$value)->get();
+                $student_session = new Student_Session;
+                $student_session->session_id = $request->session;
+                $student_session->term_id = $request->term;
+                $student_session->student_id = $value;
+                $student_session->classroom_id = $request->targetclass;
+                // section
+                $student_session->section_id = $target_classroom[0]->id;
+                $student_session->student_name = $current_student[0]->student_name;
+                    $student_session->save();
+                }
+
+
+                // $target_classroom[0]->id;
+            }
+            return 'All Student promoted ';
+            //todo promote snr class
+        }
+        return 'Student Promoted';
+    }
+
+    public function test(){
+        $courses = [];
+        $c_s = [1,2,3,4];
+        $carry = [2,5,6];
+        array_push($courses ,'here', $c_s);
+    }
+
+    public function removestudent(Request $request)
+    {
+        $student = Student::find($request->id);
+        // $parent = Parents::find($student->parent_id);
+        $student->delete();
+        // $parent->delete();
+        return 'Student deleted';
     }
 
 }

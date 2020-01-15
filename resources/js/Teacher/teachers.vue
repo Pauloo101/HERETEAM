@@ -24,6 +24,8 @@
     <b-table
       show-empty
       stacked="md"
+      small
+      striped hover
       :items="teachers"
       :fields="fields"
       :current-page="currentPage"
@@ -34,7 +36,7 @@
       :sort-direction="sortDirection"
       @filtered="onFiltered"
     >
-      <template slot="actions" slot-scope="row">
+      <template v-slot:cell(actions)="row">
         <div role="group" class="btn-group">
           <b-button
             variant="outline-success"
@@ -56,7 +58,7 @@
         >{{ row.detailsShowing ? 'Hide' : 'Show' }} Details</b-button>-->
       </template>
 
-      <template slot="row-details" slot-scope="row">
+      <template  v-slot:row-details="row">
         <b-card>
           <ul>
             <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
@@ -155,6 +157,9 @@ export default {
     }
   },
   created() {
+      Fire.$on('createteacher',()=>{
+          this.$store.dispatch("loadteachers");
+      })
     this.$store.dispatch("loadteachers");
   },
   methods: {

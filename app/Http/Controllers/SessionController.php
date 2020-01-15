@@ -42,6 +42,8 @@ class SessionController extends Controller
         ]);
         $session = new session;
         $session->session = $request->session;
+        $session->started_at = $request->sarted_at;
+        $session->ended_at = $request->ended_at;
         $session->save();
         return 'done';
 

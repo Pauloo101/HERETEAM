@@ -8,7 +8,7 @@
           </tr>
       </thead>
       <tbody>
-          <tr v-for="item in classroom" :key="item.id">
+          <tr v-for="item in classrooms" :key="item.id">
           <td>{{item.name}}</td>
           <td>
               <label class="mr-3" v-for="temp in item.sections" :key="temp.id">
@@ -39,12 +39,13 @@
 </template>
 <script>
 export default {
-     props: ['classroom'],
+    //  props: ['classroom'],
     data(){
          return{
              item:{},
              name:{},
-             section:{}
+             section:{},
+             classrooms:'',
          }
 
     },
@@ -61,6 +62,7 @@ export default {
                         variant: "success",
                         solid: true
                     });
+                    Fire.$emit('createdclass');
                 })
                 .catch(() => {
                     this.$bvToast.toast("Unable to delete", {
@@ -73,8 +75,22 @@ export default {
         }
 },
     created(){
+        axios.get('/classlist')
+        .then(({data}) => this.classrooms= data)
+        .catch((e)=>{
+            console.log(e)
+        })
 
-    }
+        Fire.$on(['createdclass','classupdate'],()=>{
+              axios.get('classlist')
+        .then(({data}) => this.classrooms = data)
+        .catch((e)=>{
+            console.log(e)
+        })
+        })
+    },
+    computed: {
+    },
 }
 </script>
 

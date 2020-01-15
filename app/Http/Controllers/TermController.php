@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Setting;
 use Illuminate\Http\Request;
 use App\Term;
 
@@ -41,8 +42,19 @@ class TermController extends Controller
         ]);
         $term = new Term;
         $term->name = $request->name;
+        $term->started_at = $request->started_at;
+        $term->ended_at = $request->ended_at;
         $term->save();
         return 'done';
+    }
+
+    public function getterms(Request $request)
+    {
+        $terms = Setting::where('session_id',$request->session)->get();
+        if (count($terms) == 0) {
+            return response("No term has been assigned to this session", 300);
+        }
+        return $terms;
     }
 
     /**

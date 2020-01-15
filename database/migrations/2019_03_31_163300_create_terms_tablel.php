@@ -16,8 +16,8 @@ class CreateTermsTablel extends Migration
         Schema::create('terms', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            // $table->string('started_at');
-            // $table->string('ended_at');
+            $table->string('started_at')->nullable();
+            $table->string('ended_at')->nullable();
             $table->timestamps();
         });
     }

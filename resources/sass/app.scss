@@ -8,9 +8,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-@import '~admin-lte/dist/css/adminlte.min.css';
-@import '~admin-lte/plugins/datatables/dataTables.bootstrap4.css';
-@import '~admin-lte/plugins/select2/select2.min.css';
+@import "~admin-lte/build/scss/AdminLTE";
+// @import "~admin-lte/dist/css/adminlte.min.css";
+//@import '~admin-lte/plugins/datatables/dataTables.bootstrap4.css';
+//@import '~admin-lte/plugins/select2/select2.min.css';
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/brands";
@@ -18,6 +19,7 @@
 @import "~@fortawesome/fontawesome-free/scss/core";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~vue-select/src/scss/vue-select.scss";
+@import "~vue-wysiwyg/dist/vueWysiwyg.css";
 
 .navbar-laravel {
   background-color: #fff;

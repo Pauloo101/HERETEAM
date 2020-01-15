@@ -10,31 +10,36 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "axios": "^0.18.0",
+        "axios": "^0.18",
         "bootstrap": "^4.3.1",
-        "browser-sync": "^2.26.3",
+        "browser-sync": "^2.26.5",
         "browser-sync-webpack-plugin": "^2.0.1",
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.5",
         "popper.js": "^1.12",
-        "vue": "^2.6.10"
+        "vue": "^2.5.17"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.6.1",
         "admin-lte": "^3.0.0-alpha.2",
-        "bootstrap-vue": "^2.0.0-rc.19",
+        "bootstrap-vue": "^2.0.2",
+        "css-loader": "^3.2.0",
+        "expo-server-sdk": "^3.3.0",
+        "portal-vue": "^2.1.6",
         "select2": "~4.0",
-        "selectize": "^0.12.6",
-        "uninstall-all-modules": "^1.0.5",
-        "v-calendar": "^0.9.7",
+        "sweetalert2": "^8.18.3",
+        "vee-validate": "^3.2.1",
         "vform": "^1.0.0",
         "vue-axios": "^2.1.4",
+        "vue-date-pick": "^1.2.1",
+        "vue-progressbar": "^0.7.5",
         "vue-router": "^3.0.2",
         "vue-select": "^3.1.0",
         "vue-template-compiler": "^2.6.10",
-        "vue2-datepicker": "^2.11.2",
+        "vue-wysiwyg": "^1.7.2",
+        "vue2-datepicker": "^2.12.0",
         "vuex": "^3.1.0"
     }
 }

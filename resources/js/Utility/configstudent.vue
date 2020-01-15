@@ -1,12 +1,15 @@
 <template>
     <div>
         <div class="card mt-2">
-            <div class="card-header">
-                <button class="btn btn-outline-dark" @click="selectedComponent = 'Students'" >
+            <div class="card-header pr-3 pt-1 pl-1 pb-1">
+                <label>Student OverView</label>
+               <div class="card-tools">
+                    <button v-show="selectedComponent == 'Student'" class="btn btn-outline-danger" @click="selectedComponent = 'Students'" >
                     <i class="fas fa-arrow-alt-circle-left"></i></button>
-                    <button @click="selectedComponent = 'Student'" class="btn btn-outline-info">
+                    <!-- <button  @click="selectedComponent = 'Student'" class="btn btn-outline-info">
                         <i class="fas fa-arrow-alt-circle-right"></i>
-                    </button>
+                    </button> -->
+               </div>
                     <!-- <p>{{student}}</p> -->
                     <!-- <label v-show="selectedComponent = 'Students'">Student OverView </label> -->
             </div>

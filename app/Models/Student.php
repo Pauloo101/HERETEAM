@@ -16,4 +16,15 @@ class Student extends Model
         return $this->belongsToMany(Subject::class);
 
     }
+    public function payments()
+    {
+        return $this->belongsToMany(Payment::class)->withPivot('payment_description', 'payment_method', 'payment_reference', 'status','total','pending');
+    }
+    public function assignments()
+    {
+        return $this->belongsToMany(Assignments::class)->withPivot('status','score');
+    }
+    public function tickets(){
+        return $this->hasOne(Ticket::class);
+    }
 }

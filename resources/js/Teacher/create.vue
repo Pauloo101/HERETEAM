@@ -53,6 +53,19 @@
                 >
                 <has-error :form="form" field="user_name"></has-error>
               </div>
+
+             <div class="form-group">
+               <label for="password">Password</label>
+               <input :class="{'is-invalid':form.errors.has('password')}"
+               type="password" name="password" id="password" v-model="form.password"
+               class="form-control form-control-sm" placeholder="password" >
+               <has-error :form="form" field="password" ></has-error>
+             </div>
+
+
+
+
+
               <div class="form-group">
                 <label >Gender</label>
                 <select
@@ -164,7 +177,8 @@
                     <div>
                       <label class="mb-0">Select Section</label>
                       <select class="form-control form-control-sm" v-model="form.section_id">
-                        <optgroup label="This is a group">
+                        <optgroup label="section">
+                            <option value="0">all</option>
                           <option
                             v-for="temp in teachersection"
                             :key="temp.id"
@@ -195,6 +209,7 @@ export default {
     return {
       form: new Form({
         first_name: "",
+        password:'',
         last_name: "",
         email: "",
         user_name: "",
@@ -219,6 +234,7 @@ export default {
         .then(({ data }) => (this.section = data));
     },
     teachersearch() {
+        this.form.section_id = 0;
       //this is for subject teacher
       axios
         .get("/search/" + this.form.classroom)
@@ -238,6 +254,7 @@ export default {
                             solid:true
                         })
                         this.form.reset();
+                        Fire.$emit('createteacher')
             })
             .catch(()=>{
                         this.$bvToast.toast('An error Occured' ,{

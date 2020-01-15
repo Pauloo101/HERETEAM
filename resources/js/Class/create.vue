@@ -41,7 +41,7 @@
                                     <p></p>
                                     <ul class="list-inline">
                                         <li class="list-inline-item">Current Section : </li>
-                                        <li class="list-inline-item" v-for="temp in previoussection.sections">{{temp.name}}</li>
+                                        <li class="list-inline-item" v-for="temp in previoussection.sections" :key="temp.id">{{temp.name}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -100,6 +100,7 @@
                         solid: true
                     })
                     this.form.reset();
+                    Fire.$emit('classupdate')
                     this.update = false;
                 })
                     .catch(() => {
@@ -118,6 +119,7 @@
                         variant: 'success',
                         solid: true
                     })
+                    Fire.$emit('createdclass')
                     this.form.reset();
                 })
                     .catch(() => {

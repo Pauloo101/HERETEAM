@@ -13,5 +13,9 @@ class Subject extends Model
         return $this->belongsToMany(Student::class)
             ->withPivot('id','classroom_name','testone','testtwo','testthree','exam');
     }
+    public function teachers()
+    {
+        return  $this->belongsToMany(Teacher::class, 'subject_teacher')->withPivot('session_id', 'term_id', 'section_id', 'classroom_id');
+    }
 
 }

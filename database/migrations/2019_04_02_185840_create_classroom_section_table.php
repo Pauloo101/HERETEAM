@@ -17,9 +17,9 @@ class CreateClassroomSectionTable extends Migration
             // $table->increments('id');
             $table->primary(['classroom_id','sections_id']);
             $table->integer('classroom_id')->unsigned();
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
+            // $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
             $table->integer('sections_id')->unsigned();
-            $table->foreign('sections_id')->references('id')->on('sections')->onDelete('cascade');
+            // $table->foreign('sections_id')->references('id')->on('sections')->onDelete('cascade');
             $table->timestamps();
         });
     }

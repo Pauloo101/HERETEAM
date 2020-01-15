@@ -16,6 +16,8 @@ class CreateclassroomTable extends Migration
         Schema::create('classrooms', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            // $table->integer('order')->unique()->nullable(); // 1,2,3,4,5,6
+            $table->integer('class_order')->nullable(); // 1,2,3,4,5,6
             $table->timestamps();
         });
     }
